@@ -1,0 +1,87 @@
+:root {
+    --primary-color: #1F2933;
+    --secondary-color: #66C0F4;
+    --accent-color: #FFD700;
+    --background-color: #161C24;
+    --text-color: #FFFFFF;
+}
+
+html, body {
+    background-color: var(--background-color);
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+}
+
+.full-height-row {
+    height: 100vh;
+    background-color: var(--primary-color);
+}
+
+
+/* INTRO */
+
+#intro-row {
+    background-color: var(--primary-color);
+    margin-bottom: 5em;
+    margin-top: 5em;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+img {
+    max-width: 300px; /* Increased image size */
+}
+
+#selector {
+    background-color: var(--primary-color);
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    background-color: var(--secondary-color);
+    color: var(--background-color);
+    cursor: pointer;
+}
+
+.tab-text {
+    font-size: 18px; /* Bigger tab selector text */
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.tab.active {
+    background-color: var(--accent-color);
+    color: var(--background-color);
+}
+
+.nav-row {
+    border-bottom: 1px solid var(--primary-color);
+}
+
+.content-row {
+    display: none;
+    margin-top: 20px;
+    padding-bottom: 60px;
+    padding-top: 40px;
+}
+
+.content-row.active {
+    display: flex;
+}
+
+/* Added space at the end of the page for better scrolling */
+.container-fluid {
+    margin-bottom: 50px;
+}
+
+.space {
+    height: 200px; /* Adjust the height as per your requirement */
+  }
+  
+.bg-bgcolor {
+    background-color: var(--background-color);
+}
