@@ -53,9 +53,9 @@ class Card {
 
             // Condition to verify if the image is too tall to fit in the screen
             // If it is, we need to make it be 500px tall
-            if (this.cardElement.style.height !== 500) {
-                this.cardElement.style.height = '500px';
-                this.cardElement.style.width = `${500 * aspectRatio}px`;
+            if (this.cardElement.style.height !== 420) {
+                this.cardElement.style.height = '420px';
+                this.cardElement.style.width = `${420 * aspectRatio}px`;
             };
 
             // Place the selected card with the same position of the grid-container
@@ -136,7 +136,7 @@ class Grid {
 
         for (let i = 0; i < 25; i++) {
             const randomIndex = Math.floor(Math.random() * this.gallery.length);
-            const imageUrl = this.gallery[randomIndex].image_url;
+            const imageUrl = this.gallery[randomIndex].small_img_url;
 
             const cardElement = document.createElement('div');
             cardElement.className = 'card';
