@@ -74,16 +74,15 @@ d3.csv(url).then(function(data) {
     drawTreemap(nest);
 
     d3.select("#filtro-nacionalidade").on("change", function() {
-        selectedNationality = d3.select(this).node().value;
-        filteredData = data.filter(d => d.nationality === selectedNationality);
-        nest = d3.nest()
-            .key(function(d) { return d.nationality; })
-            .key(function(d) { return d.classification; })
-            .entries(filteredData);
+    selectedNationality = d3.select(this).node().value;
+    filteredData = data.filter(d => d.nationality === selectedNationality);
+    nest = d3.nest()
+        .key(function(d) { return d.classification; }) // mantenha a chave original
+        .entries(filteredData);
 
-        // Aqui estamos removendo o gráfico antigo antes de desenhar o novo.
-        d3.select("body").select("svg").remove();
-        drawTreemap(nest);
+    // Aqui estamos removendo o gráfico antigo antes de desenhar o novo.
+    d3.select("body").select("svg").remove();
+    drawTreemap(nest);
     });
 });
 
@@ -110,17 +109,16 @@ function drawTreemap(data) {
     };
 
     let mousemove = function(d) {
-        tooltip
-            .html("Nacionalidade: " + d.data.nationality + 
-            "<br>Classificação: " + d.data.classification + 
-            "<br>Nome: " + d.data.title +
-            "<br>Artista: " + d.data.full_name +
-            "<br>Data criação: " + d.data.creation_date +
-            "<br>Medium: " + d.data.medium +
-            d.data.small_img_url+
-            "<br><img src='" + d.data.small_img_url + "' />")
-            .style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");  // ajustar posição com base no mouse
-    };
+    tooltip
+        .html("<div class='classification'>" + d.data.classification + "</div>" +
+        "<br><div class='info'><strong>Art name:</strong> " + d.data.title + "</div>" +
+        "<div class='info'><strong>Artist name:</strong> " + d.data.full_name + "</div>" +
+        "<div class='info'><strong>Creation date:</strong> " + d.data.creation_date + "</div>" +
+        "<div class='info'><strong>Medium:</strong> " + d.data.medium + "</div>" +
+        "<br><img class='image' src='" + d.data.small_img_url + "' style='max-width:200px; max-height:200px;' />")
+        .style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");  // ajustar posição com base no mouse
+    } ;
+
 
     let mouseleave = function(d) {
         tooltip
