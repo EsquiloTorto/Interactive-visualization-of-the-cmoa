@@ -58,7 +58,7 @@
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
 // Caminho para o arquivo CSV
-let url = 'cmoa_4_all.csv';
+let url = 'cmoa_4_all_small.csv';
 
 // Conversor de CSV para JSON
 
@@ -113,7 +113,7 @@ function drawTreemap(data) {
         tooltip
             .html("Nacionalidade: " + d.data.nationality + 
             "<br>Classificação: " + d.data.classification + 
-            "<br><img src='" + d.data.img_url + "' />")
+            "<br><img src='" + d.data.small_img_url + "' />")
             .style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");  // ajustar posição com base no mouse
     };
 
@@ -160,7 +160,7 @@ function drawTreemap(data) {
         .style("fill", function(d){ return color(d.data.classification)} );
 
     node.append("image")
-    .attr("xlink:href", function(d) { return d.data.img_url; })
+    .attr("xlink:href", function(d) { return d.data.small_img_url; })
     .attr("x", 0)
     .attr("y", 0)
     .attr("width", function(d) { return d.x1 - d.x0; }) 
