@@ -113,6 +113,7 @@ function drawTreemap(data) {
         tooltip
             .html("Nacionalidade: " + d.data.nationality + 
             "<br>Classificação: " + d.data.classification + 
+            
             "<br><img src='" + d.data.small_img_url + "' />")
             .style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");  // ajustar posição com base no mouse
     };
@@ -206,6 +207,8 @@ function drawTreemap(data) {
     .attr("width", function(d) { return d.x1 - d.x0; }) 
     .attr("height", function(d) { return d.y1 - d.y0; });
 
+
+    
 }
 </script>
 </body>
