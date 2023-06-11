@@ -10,6 +10,8 @@ body {
     margin: 0 auto;
     background: rgb(48,48,48);
     max-width: 80%;
+    margin-bottom: 100px;
+    /* grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); n sei se muda algo */
 }
 
 /* clear fix */
@@ -124,14 +126,14 @@ img {
 
   /* Back to top button */
 
-  #myBtn {
+  #topBtn {
     display: none; /* Hidden by default */
     position: fixed; /* Fixed/sticky position */
     bottom: 20px; /* Place the button at the bottom of the page */
     right: 30px; /* Place the button 30px from the right */
     z-index: 99; /* Make sure it does not overlap */
     padding: 10px 25px;
-    font-family: "Roboto", sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: 500;
     background: transparent;
     outline: none !important;
@@ -139,13 +141,13 @@ img {
     transition: all 0.3s ease;
   }
   
-  #myBtn.btn-43 {
+  #topBtn.btn-43 {
     border: 2px solid rgb(0, 0, 0);
     z-index: 1;
     color: black;
   }
   
-  #myBtn.btn-43:after {
+  #topBtn.btn-43:after {
     position: absolute;
     content: "";
     width: 100%;
@@ -157,12 +159,96 @@ img {
     transition: all 0.3s ease;
   }
   
-  #myBtn.btn-43:hover {
+  #topBtn.btn-43:hover {
     color: rgb(255, 255, 255);
   }
   
-  #myBtn.btn-43:hover:after {
+  #topBtn.btn-43:hover:after {
     top: auto;
     bottom: 0;
     height: 100%;
+  }
+
+  /* Search box */
+
+  .search-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    max-width: 300px;
+  }
+
+  input {
+    font-size: 1rem;
+  }
+
+/* Random button */
+.bn54 {
+    position: relative;
+    outline: none;
+    text-decoration: none;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-transform: uppercase;
+    height: 45px;
+    width: 130px;
+    opacity: 1;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.6);
+  }
+  
+  .bn54 .bn54span {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #000000;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.7px;
+  }
+  
+  .bn54:hover {
+    animation: bn54rotate 0.7s ease-in-out both;
+  }
+  
+  .bn54:hover .bn54span {
+    animation: bn54storm 0.7s ease-in-out both;
+    animation-delay: 0.06s;
+  }
+  
+  @keyframes bn54rotate {
+    0% {
+      transform: rotate(0deg) translate3d(0, 0, 0);
+    }
+    25% {
+      transform: rotate(3deg) translate3d(0, 0, 0);
+    }
+    50% {
+      transform: rotate(-3deg) translate3d(0, 0, 0);
+    }
+    75% {
+      transform: rotate(1deg) translate3d(0, 0, 0);
+    }
+    100% {
+      transform: rotate(0deg) translate3d(0, 0, 0);
+    }
+  }
+  
+  @keyframes bn54storm {
+    0% {
+      transform: translate3d(0, 0, 0) translateZ(0);
+    }
+    25% {
+      transform: translate3d(4px, 0, 0) translateZ(0);
+    }
+    50% {
+      transform: translate3d(-3px, 0, 0) translateZ(0);
+    }
+    75% {
+      transform: translate3d(2px, 0, 0) translateZ(0);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) translateZ(0);
+    }
   }

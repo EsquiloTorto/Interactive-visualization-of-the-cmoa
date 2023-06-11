@@ -15,156 +15,154 @@ function loadCSV(url) {
 
 // Class to handle various functionalities
 class Functionalities {
-    constructor() {
-      this.mybutton = document.getElementById("myBtn");
-      // When the user scrolls down 20px from the top of the document, show the button
-      window.onscroll = () => this.scrollFunction();
-  
-      // Add click event listener to the button
-      this.mybutton.addEventListener("click", () => this.topFunction());
+    constructor(gallery) {
+        this.gallery = gallery;
+        this.mybutton = document.getElementById("topBtn");
+        this.gridItems = Array.from(document.querySelectorAll('.grid-item'));
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = () => this.scrollFunction();
+
+        // Add click event listener to the button
+        this.mybutton.addEventListener("click", () => this.topFunction());
     }
   
     scrollFunction() {
-      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        this.mybutton.style.display = "block";
-      } else {
-        this.mybutton.style.display = "none";
-      }
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            this.mybutton.style.display = "block";
+        } else {
+            this.mybutton.style.display = "none";
+        }
     }
   
     // When the user clicks on the button, scroll to the top of the document smoothly
     topFunction() {
         if ('scrollBehavior' in document.documentElement.style) {
-        // If the browser supports scroll behavior, use it
-        window.scrollTo({
+            // If the browser supports scroll behavior, use it
+            window.scrollTo({
             top: 0,
             behavior: 'smooth'
-        });
+            });
         } else {
-        // Fallback for browsers that do not support scroll behavior
-        const scrollToTop = () => {
+            // Fallback for browsers that do not support scroll behavior
+            const scrollToTop = () => {
             const currentPosition = document.documentElement.scrollTop || document.body.scrollTop;
             if (currentPosition > 0) {
-            window.requestAnimationFrame(scrollToTop);
-            window.scrollTo(0, currentPosition - currentPosition / 8);
+                window.requestAnimationFrame(scrollToTop);
+                window.scrollTo(0, currentPosition - currentPosition / 8);
             }
-        };
-        scrollToTop();
+            };
+            scrollToTop();
         }
     }
+
+    // Randomize the gallery rows
+    randomizeGallery(gallery) {
+        gallery.sort(() => Math.random() - 0.5);
+    }
+
 }
 
 class Grid {
-    constructor(gallery) {
-        this.grid = document.querySelector('.grid');
-        this.gallery = gallery;
-        this.iso = new Isotope(this.grid, {
-        layoutMode: 'cellsByRow',
-        itemSelector: '.grid-item',
-        cellsByRow: {
-            columnWidth: 200,
-            rowHeight: 300,
-        },
-        });
+  constructor(gallery) {
+    this.grid = document.querySelector('.grid');
+    this.gallery = gallery;
+    this.iso = new Isotope(this.grid, {
+      layoutMode: 'cellsByRow',
+      itemSelector: '.grid-item',
+      cellsByRow: {
+        columnWidth: 200,
+        rowHeight: 300,
+      },
+    });
 
-        // Store a reference to the currently zoomed item
+    // Store a reference to the currently zoomed item
+    this.zoomedItem = null;
+
+    // Attach click event listener to grid items
+    this.grid.addEventListener('click', this.handleItemClick.bind(this));
+    this.grid.addEventListener('mouseover', this.handleItemHover.bind(this));
+    this.grid.addEventListener('mouseout', this.handleItemHover.bind(this));
+  }
+
+  handleItemClick(event) {
+    const clickedItem = event.target.closest('.grid-item');
+    if (clickedItem) {
+      if (this.zoomedItem === clickedItem) {
+        // If the clicked item is already zoomed, remove the zoomed class
+        clickedItem.classList.remove('zoomed');
         this.zoomedItem = null;
-
-        // Attach click event listener to grid items
-        this.grid.addEventListener('click', this.handleItemClick.bind(this));
-        this.grid.addEventListener('mouseover', this.handleItemHover.bind(this));
-        this.grid.addEventListener('mouseout', this.handleItemHover.bind(this));
-    }
-  
-    handleItemClick(event) {
-        const clickedItem = event.target.closest('.grid-item');
-        if (clickedItem) {
-            if (this.zoomedItem === clickedItem) {
-                // If the clicked item is already zoomed, remove the zoomed class
-                clickedItem.classList.remove('zoomed');
-                this.zoomedItem = null;
-            } else {
-                // Remove zoomed class from the previously zoomed item
-                if (this.zoomedItem) {
-                this.zoomedItem.classList.remove('zoomed');
-                }
-                // Add zoomed class to the clicked item
-                clickedItem.classList.add('zoomed');
-                this.zoomedItem = clickedItem;
-            }
-            this.iso.layout();
-        } else {
-            // If the user clicked outside the grid item, zoom out if there is a zoomed item
-            if (this.zoomedItem) {
-                this.zoomedItem.classList.remove('zoomed');
-                this.zoomedItem = null;
-                this.iso.layout();
-            }
+      } else {
+        // Remove zoomed class from the previously zoomed item
+        if (this.zoomedItem) {
+          this.zoomedItem.classList.remove('zoomed');
         }
-    }
-  
-    handleItemHover(event) {
-        const hoveredItem = event.target.closest('.grid-item');
-        const zoomedItem = this.zoomedItem;
-        
-        if (hoveredItem && (!zoomedItem || hoveredItem !== zoomedItem)) {
-            const infoElement = hoveredItem.querySelector('.item-info');
-            if (event.type === 'mouseover') {
-                infoElement.style.display = 'block';
-            } else if (event.type === 'mouseout') {
-                infoElement.style.display = 'none';
-            }
-        }
-    }
-  
-    // Get item info
-    getItemInfo(galleryRow) {
-        const title = galleryRow.title;
-        const artist = galleryRow.cited_name;
-        const date = galleryRow.creation_date;
-        const web_url = galleryRow.web_url;
-
-        return { title, artist, date, web_url };
-    }
-  
-    // Add an item to the grid
-    addGridItem(galleryRow) {
-        const gridItem = document.createElement('div');
-        gridItem.classList.add('grid-item');
-
-        const imageElement = document.createElement('img');
-        imageElement.src = galleryRow.small_img_url;
-        imageElement.style.width = '140px';
-        imageElement.style.height = 'auto';
-
-        const infoElement = document.createElement('div');
-        infoElement.classList.add('item-info');
-        const { title, artist, date, web_url } = this.getItemInfo(galleryRow);
-        infoElement.innerHTML = `
-        <h3>${title}</h3>
-        <p>${artist}</p>
-        <p>${date}</p>
-        <a href="${web_url}" target="_blank">View on CMOA website</a>
-        `;
-
-        gridItem.appendChild(imageElement);
-        gridItem.appendChild(infoElement);
-        this.grid.appendChild(gridItem);
-        this.iso.appended(gridItem);
+        // Add zoomed class to the clicked item
+        clickedItem.classList.add('zoomed');
+        this.zoomedItem = clickedItem;
+      }
+      this.iso.layout();
+    } else {
+      // If the user clicked outside the grid item, zoom out if there is a zoomed item
+      if (this.zoomedItem) {
+        this.zoomedItem.classList.remove('zoomed');
+        this.zoomedItem = null;
         this.iso.layout();
+      }
+    }
+  }
 
-        // Get the position of the newly added grid item
-        const itemPosition = this.getItemPosition(gridItem);
-        console.log('Item position:', itemPosition);
+  handleItemHover(event) {
+    const hoveredItem = event.target.closest('.grid-item');
+    const zoomedItem = this.zoomedItem;
+    
+    if (hoveredItem && (!zoomedItem || hoveredItem !== zoomedItem)) {
+      const infoElement = hoveredItem.querySelector('.item-info');
+      if (event.type === 'mouseover') {
+        infoElement.style.display = 'block';
+      } else if (event.type === 'mouseout') {
+        infoElement.style.display = 'none';
+      }
     }
-  
-    getItemPosition(item) {
-        const cells = this.iso.filteredItems.map((filteredItem) => filteredItem.element);
-        const position = cells.indexOf(item);
-        return position;
-    }
+  }
+
+  // Get item info
+  getItemInfo(galleryRow) {
+    const title = galleryRow.title;
+    const artist = galleryRow.cited_name;
+    const date = galleryRow.creation_date;
+    const web_url = galleryRow.web_url;
+
+    return { title, artist, date, web_url };
+  }
+
+  // Add an item to the grid
+  addGridItem(galleryRow) {
+    const gridItem = document.createElement('div');
+    gridItem.classList.add('grid-item');
+
+    const imageElement = document.createElement('img');
+    imageElement.src = galleryRow.small_img_url;
+    imageElement.style.width = '140px';
+    imageElement.style.height = 'auto';
+
+    const infoElement = document.createElement('div');
+    infoElement.classList.add('item-info');
+    const { title, artist, date, web_url } = this.getItemInfo(galleryRow);
+    infoElement.innerHTML = `
+      <h3>${title}</h3>
+      <p>${artist}</p>
+      <p>${date}</p>
+      <a href="${web_url}" target="_blank">View on CMOA website</a>
+    `;
+
+    gridItem.appendChild(imageElement);
+    gridItem.appendChild(infoElement);
+    this.grid.appendChild(gridItem);
+    this.iso.appended(gridItem);
+    this.iso.layout();
+  }
 }
-  
 
 // Function to filter gallery by classification
 function filterGalleryByClassification(gallery, classification) {
@@ -172,46 +170,78 @@ function filterGalleryByClassification(gallery, classification) {
 }
 
 loadCSV(GALLERY_CSV)
-  .then((gallery) => {
+    .then((gallery) => {
     // Create a new grid
     const grid = new Grid(gallery);
+
+    // Instantiate the Functionalities class
+    const functionalities = new Functionalities(gallery);
 
     // Add the first 20 images to the grid
     for (let i = 0; i < 20; i++) {
       grid.addGridItem(gallery[i]);
     }
 
-    // Instantiate the Functionalities class
-    const functionalities = new Functionalities();
-
     // Dropdown menu functionality
     const dropdown = document.getElementById('classificationDropdown');
+
     dropdown.addEventListener('change', (event) => {
-      const selectedClassification = event.target.value;
+        const selectedClassification = event.target.value;
 
-      // Clear existing items in the grid
-      grid.iso.remove(grid.iso.getItemElements());
+        // Clear existing items in the grid
+        grid.iso.remove(grid.iso.getItemElements());
 
-      if (selectedClassification === 'all') {
+        if (selectedClassification === 'all') {
         // Add all images to the grid
         gallery.slice(0, 20).forEach((item) => {
-          grid.addGridItem(item);
+            grid.addGridItem(item);
         });
-      } else {
+        } else {
         // Filter gallery by selected classification
         const filteredGallery = filterGalleryByClassification(gallery, selectedClassification);
 
         // Add the first 20 filtered images to the grid
         filteredGallery.slice(0, 20).forEach((item) => {
-          grid.addGridItem(item);
+            grid.addGridItem(item);
         });
-      }
+        }
+    });
+
+    // Random button functionality
+    const randomButton = document.getElementById('randomButton');
+    randomButton.addEventListener('click', () => {
+        // Get the selected classification from the dropdown
+        const selectedClassification = dropdown.value;
+
+
+        if (selectedClassification === 'all') {
+            functionalities.randomizeGallery(gallery);
+            // Clear existing items in the grid
+            grid.iso.remove(grid.iso.getItemElements());
+
+            // Add the first 20 randomized images to the grid
+            gallery.slice(0, 20).forEach((item) => {
+            grid.addGridItem(item);
+            });
+        } else {
+            // Filter gallery by selected classification
+            const filteredGallery = filterGalleryByClassification(gallery, selectedClassification);
+
+            functionalities.randomizeGallery(filteredGallery);
+            // Clear existing items in the grid
+            grid.iso.remove(grid.iso.getItemElements());
+
+            // Add the first 20 randomized images to the grid
+            filteredGallery.slice(0, 20).forEach((item) => {
+            grid.addGridItem(item);
+            });
+        }
     });
 
     // Add a scroll event listener to the window to work with the filter dropdown
     window.addEventListener('scroll', () => {
-      // If the user has scrolled to the bottom of the page
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        // If the user has scrolled to the bottom of the page
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
         // Get the selected classification from the dropdown
         const selectedClassification = dropdown.value;
 
@@ -219,22 +249,22 @@ loadCSV(GALLERY_CSV)
         const numItems = grid.iso.getItemElements().length;
 
         if (selectedClassification === 'all') {
-          // Add the next 20 images from the full gallery to the grid
-          gallery.slice(numItems, numItems + 20).forEach((item) => {
+            // Add the next 20 images from the full gallery to the grid
+            gallery.slice(numItems, numItems + 20).forEach((item) => {
             grid.addGridItem(item);
-          });
+            });
         } else {
-          // Filter gallery by selected classification
-          const filteredGallery = filterGalleryByClassification(gallery, selectedClassification);
+            // Filter gallery by selected classification
+            const filteredGallery = filterGalleryByClassification(gallery, selectedClassification);
 
-          // Add the next 20 filtered images to the grid
-          filteredGallery.slice(numItems, numItems + 20).forEach((item) => {
+            // Add the next 20 filtered images to the grid
+            filteredGallery.slice(numItems, numItems + 20).forEach((item) => {
             grid.addGridItem(item);
-          });
+            });
         }
-      }
+        }
     });
-  })
-  .catch((error) => {
+})
+.catch((error) => {
     console.error('Error loading CSV:', error);
-  });
+});
