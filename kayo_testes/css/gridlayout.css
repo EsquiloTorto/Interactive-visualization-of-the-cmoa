@@ -9,7 +9,7 @@ body {
 .grid {
     margin: 0 auto;
     background: rgb(48,48,48);
-    max-width: 1200px;
+    max-width: 80%;
 }
 
 /* clear fix */
