@@ -32,136 +32,138 @@ class Functionalities {
       }
     }
   
-// When the user clicks on the button, scroll to the top of the document smoothly
-topFunction() {
-    if ('scrollBehavior' in document.documentElement.style) {
-      // If the browser supports scroll behavior, use it
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    } else {
-      // Fallback for browsers that do not support scroll behavior
-      const scrollToTop = () => {
-        const currentPosition = document.documentElement.scrollTop || document.body.scrollTop;
-        if (currentPosition > 0) {
-          window.requestAnimationFrame(scrollToTop);
-          window.scrollTo(0, currentPosition - currentPosition / 8);
+    // When the user clicks on the button, scroll to the top of the document smoothly
+    topFunction() {
+        if ('scrollBehavior' in document.documentElement.style) {
+        // If the browser supports scroll behavior, use it
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        } else {
+        // Fallback for browsers that do not support scroll behavior
+        const scrollToTop = () => {
+            const currentPosition = document.documentElement.scrollTop || document.body.scrollTop;
+            if (currentPosition > 0) {
+            window.requestAnimationFrame(scrollToTop);
+            window.scrollTo(0, currentPosition - currentPosition / 8);
+            }
+        };
+        scrollToTop();
         }
-      };
-      scrollToTop();
     }
-  }
-  }
+}
 
-  class Grid {
+class Grid {
     constructor(gallery) {
-      this.grid = document.querySelector('.grid');
-      this.gallery = gallery;
-      this.iso = new Isotope(this.grid, {
+        this.grid = document.querySelector('.grid');
+        this.gallery = gallery;
+        this.iso = new Isotope(this.grid, {
         layoutMode: 'cellsByRow',
         itemSelector: '.grid-item',
         cellsByRow: {
-          columnWidth: 200,
-          rowHeight: 300,
+            columnWidth: 200,
+            rowHeight: 300,
         },
-      });
-  
-      // Store a reference to the currently zoomed item
-      this.zoomedItem = null;
-  
-      // Attach click event listener to grid items
-      this.grid.addEventListener('click', this.handleItemClick.bind(this));
-      this.grid.addEventListener('mouseover', this.handleItemHover.bind(this));
-      this.grid.addEventListener('mouseout', this.handleItemHover.bind(this));
+        });
+
+        // Store a reference to the currently zoomed item
+        this.zoomedItem = null;
+
+        // Attach click event listener to grid items
+        this.grid.addEventListener('click', this.handleItemClick.bind(this));
+        this.grid.addEventListener('mouseover', this.handleItemHover.bind(this));
+        this.grid.addEventListener('mouseout', this.handleItemHover.bind(this));
     }
   
     handleItemClick(event) {
-      const clickedItem = event.target.closest('.grid-item');
-      if (clickedItem) {
-        if (this.zoomedItem === clickedItem) {
-          // If the clicked item is already zoomed, remove the zoomed class
-          clickedItem.classList.remove('zoomed');
-          this.zoomedItem = null;
+        const clickedItem = event.target.closest('.grid-item');
+        if (clickedItem) {
+            if (this.zoomedItem === clickedItem) {
+                // If the clicked item is already zoomed, remove the zoomed class
+                clickedItem.classList.remove('zoomed');
+                this.zoomedItem = null;
+            } else {
+                // Remove zoomed class from the previously zoomed item
+                if (this.zoomedItem) {
+                this.zoomedItem.classList.remove('zoomed');
+                }
+                // Add zoomed class to the clicked item
+                clickedItem.classList.add('zoomed');
+                this.zoomedItem = clickedItem;
+            }
+            this.iso.layout();
         } else {
-          // Remove zoomed class from the previously zoomed item
-          if (this.zoomedItem) {
-            this.zoomedItem.classList.remove('zoomed');
-          }
-          // Add zoomed class to the clicked item
-          clickedItem.classList.add('zoomed');
-          this.zoomedItem = clickedItem;
+            // If the user clicked outside the grid item, zoom out if there is a zoomed item
+            if (this.zoomedItem) {
+                this.zoomedItem.classList.remove('zoomed');
+                this.zoomedItem = null;
+                this.iso.layout();
+            }
         }
-        this.iso.layout();
-      } else {
-        // If the user clicked outside the grid item, zoom out if there is a zoomed item
-        if (this.zoomedItem) {
-          this.zoomedItem.classList.remove('zoomed');
-          this.zoomedItem = null;
-          this.iso.layout();
-        }
-      }
     }
   
     handleItemHover(event) {
-      const hoveredItem = event.target.closest('.grid-item');
-      if (hoveredItem) {
-        const infoElement = hoveredItem.querySelector('.item-info');
-        if (event.type === 'mouseover') {
-          infoElement.style.display = 'block';
-        } else if (event.type === 'mouseout') {
-          infoElement.style.display = 'none';
+        const hoveredItem = event.target.closest('.grid-item');
+        const zoomedItem = this.zoomedItem;
+        
+        if (hoveredItem && (!zoomedItem || hoveredItem !== zoomedItem)) {
+            const infoElement = hoveredItem.querySelector('.item-info');
+            if (event.type === 'mouseover') {
+                infoElement.style.display = 'block';
+            } else if (event.type === 'mouseout') {
+                infoElement.style.display = 'none';
+            }
         }
-      }
     }
   
     // Get item info
     getItemInfo(galleryRow) {
-      const title = galleryRow.title;
-      const artist = galleryRow.cited_name;
-      const date = galleryRow.creation_date;
-      const web_url = galleryRow.web_url;
-  
-      return { title, artist, date, web_url };
+        const title = galleryRow.title;
+        const artist = galleryRow.cited_name;
+        const date = galleryRow.creation_date;
+        const web_url = galleryRow.web_url;
+
+        return { title, artist, date, web_url };
     }
   
     // Add an item to the grid
     addGridItem(galleryRow) {
-      const gridItem = document.createElement('div');
-      gridItem.classList.add('grid-item');
-  
-      const imageElement = document.createElement('img');
-      imageElement.src = galleryRow.small_img_url;
-      imageElement.style.width = '140px';
-      imageElement.style.height = 'auto';
-  
-      const infoElement = document.createElement('div');
-      infoElement.classList.add('item-info');
-      const { title, artist, date, web_url } = this.getItemInfo(galleryRow);
-      infoElement.innerHTML = `
+        const gridItem = document.createElement('div');
+        gridItem.classList.add('grid-item');
+
+        const imageElement = document.createElement('img');
+        imageElement.src = galleryRow.small_img_url;
+        imageElement.style.width = '140px';
+        imageElement.style.height = 'auto';
+
+        const infoElement = document.createElement('div');
+        infoElement.classList.add('item-info');
+        const { title, artist, date, web_url } = this.getItemInfo(galleryRow);
+        infoElement.innerHTML = `
         <h3>${title}</h3>
         <p>${artist}</p>
         <p>${date}</p>
         <a href="${web_url}" target="_blank">View on CMOA website</a>
-      `;
-  
-      gridItem.appendChild(imageElement);
-      gridItem.appendChild(infoElement);
-      this.grid.appendChild(gridItem);
-      this.iso.appended(gridItem);
-      this.iso.layout();
-  
-      // Get the position of the newly added grid item
-      const itemPosition = this.getItemPosition(gridItem);
-      console.log('Item position:', itemPosition);
+        `;
+
+        gridItem.appendChild(imageElement);
+        gridItem.appendChild(infoElement);
+        this.grid.appendChild(gridItem);
+        this.iso.appended(gridItem);
+        this.iso.layout();
+
+        // Get the position of the newly added grid item
+        const itemPosition = this.getItemPosition(gridItem);
+        console.log('Item position:', itemPosition);
     }
   
     getItemPosition(item) {
-      const cells = this.iso.filteredItems.map((filteredItem) => filteredItem.element);
-      const position = cells.indexOf(item);
-      return position;
+        const cells = this.iso.filteredItems.map((filteredItem) => filteredItem.element);
+        const position = cells.indexOf(item);
+        return position;
     }
-  }
+}
   
 
 // Function to filter gallery by classification
