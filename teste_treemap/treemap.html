@@ -59,7 +59,7 @@
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
 // Caminho para o arquivo CSV
-let url = 'cmoa_4_all_small.csv';
+let url = 'cmoa_4_all_small_20img.csv';
 
 // Conversor de CSV para JSON
 
@@ -87,9 +87,9 @@ d3.csv(url).then(function(data) {
 });
 
 function drawTreemap(data) {
-    const margin = {top: 100, right: 20, bottom: 30, left: 20};
-    const width = 960 - margin.left - margin.right;
-    const height = 600 - margin.top - margin.bottom;
+    const margin = {top: 10, right: 20, bottom: 30, left: 20};
+    const width = 1400 - margin.left - margin.right;
+    const height = 700 - margin.top - margin.bottom;
        
             // create a tooltip
     var tooltip = d3.select("body")
@@ -130,11 +130,8 @@ function drawTreemap(data) {
         .style("opacity", 1)
     };
 
-    var color = d3.scaleOrdinal()
-    .range([ '#FF6347','#F08080','#EE82EE','#9932CC',"#9ACD32", "#00FF7F", "#87CEEB", "#4169E1", "#483D8B",'#696969','#E0FFFF'])
-
     let svg = d3.select("body").append("svg")
-        .attr("width", width)
+        .attr("width", 'width')
         .attr("height", height)
     
         let treemap = d3.treemap()
@@ -150,11 +147,6 @@ function drawTreemap(data) {
         .sort(function(a, b) { return b.value - a.value; });
   
     treemap(root);
-
-    var colors = d3.scaleOrdinal(
-        ['#D2E8F3', '#FDF2C2', '#F7C8D0', '#CFF1C9', '#EFD5E6', '#FAECC6', '#C7DBEB', '#FFF0C0', '#EBC6D4', '#BCE0C2', '#F5D4EB', '#FCE9B4', '#D0DCE8', '#FFE9B0', '#E7BFD1', '#AEDFAC', '#FAE6A3', '#EFC0D4', '#9FCAA3', '#F9E18C']
-
-    );
 
     let parents = svg.selectAll(".parent")
     .data(root.descendants())
@@ -190,8 +182,6 @@ function drawTreemap(data) {
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave);
-
-
 
 
     node.append("rect")
