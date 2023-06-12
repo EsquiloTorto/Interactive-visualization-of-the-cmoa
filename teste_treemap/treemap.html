@@ -64,13 +64,15 @@
 <br>
 <br>
 
+<div id="raul">
+</div>
+
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
 // Caminho para o arquivo CSV
 let url = 'data.csv';
 
 // Conversor de CSV para JSON
-
 d3.csv(url).then(function(data) {
     let selectedNationality = d3.select("#filtro-nacionalidade").node().value;
     let filteredData = data.filter(d => d.nationality === selectedNationality);
@@ -95,11 +97,11 @@ d3.csv(url).then(function(data) {
 });
 
 function drawTreemap(data) {
-    const margin = {top: 10, right: 20, bottom: 30, left: 20};
-    const width = 1400 - margin.left - margin.right;
-    const height = 700 - margin.top - margin.bottom;
-       
-            // create a tooltip
+    const margin = {top: 40, right: 35, bottom: 40, left: 35};
+    const width = window.innerWidth - margin.left - margin.right;
+    const height = window.innerHeight - margin.top - margin.bottom;
+
+    // create a tooltip
     var tooltip = d3.select("body")
     .append("div")
         .style("position", "absolute") // adicionar posição absoluta
@@ -116,17 +118,28 @@ function drawTreemap(data) {
           .style("opacity", .5)
     };
 
+
     let mousemove = function(d) {
-    tooltip
+        // Se o tooltip estiver muito à direita, mostre à esquerda do cursor
+        const tooltipLeft = event.pageX + tooltip.node().offsetWidth + 20 > window.innerWidth
+            ? event.pageX - tooltip.node().offsetWidth - 20
+            : event.pageX + 20;
+        // Se o tooltip estiver muito embaixo, mostre acima do cursor
+        const tooltipTop = event.pageY + tooltip.node().offsetHeight + 20 > window.innerHeight
+            ? event.pageY - tooltip.node().offsetHeight - 20
+            : event.pageY + 20;
+
+        tooltip
         .html("<div class='classification'>" + d.data.classification + " - " + Math.floor(d.data.total) + " Arts</div>" +
         "<br><div class='info'><strong>Art name:</strong> " + d.data.title + "</div>" +
         "<div class='info'><strong>Artist name:</strong> " + d.data.full_name + "</div>" +
         "<div class='info'><strong>Creation date:</strong> " + d.data.creation_date + "</div>" +
         "<div class='info'><strong>Medium:</strong> " + d.data.medium + "</div>" +
         "<br><img class='image' src='" + d.data.small_img_url + "' style='max-width:200px; max-height:200px;' />")
-        .style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");  // ajustar posição com base no mouse
-    } ;
-
+        .style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
+        .style("left", tooltipLeft + "px")
+        .style("top", tooltipTop + "px");
+    };
 
     let mouseleave = function(d) {
         tooltip
@@ -138,23 +151,24 @@ function drawTreemap(data) {
         .style("opacity", 1)
     };
 
-    let svg = d3.select("body").append("svg")
-        .attr("width", 'width')
-        .attr("height", height)
+    let svg = d3.select("#raul").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
     
-        let treemap = d3.treemap()
-        .size([width, height])
-        .paddingTop(28) // alterado para o mesmo valor que o exemplo
-        .paddingRight(7) // alterado para o mesmo valor que o exemplo
-        .paddingInner(0) // alterado para o mesmo valor que o exemplo
-        .paddingOuter(6) // adicionado como no exemplo
-        .round(true);
+    let treemap = d3.treemap()
+    .size([width, height])
+    .paddingTop(28) // alterado para o mesmo valor que o exemplo
+    .paddingRight(7) // alterado para o mesmo valor que o exemplo
+    .paddingInner(0) // alterado para o mesmo valor que o exemplo
+    .paddingOuter(6) // adicionado como no exemplo
+    .round(true);
 
     let root = d3.hierarchy({values: data}, function(d) { return d.values; })
         .sum(function(d) { return d.value; })
         .sort(function(a, b) { return b.value - a.value; });
   
     treemap(root);
+
 
     let parents = svg.selectAll(".parent")
     .data(root.descendants())
