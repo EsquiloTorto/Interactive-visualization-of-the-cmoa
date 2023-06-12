@@ -1,11 +1,27 @@
-  #raul {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+
+#raul {
+  height: 100vh;
+  /* display: flex; */
+  flex-direction: column;
+  overflow: hidden; 
+
 }
-
-
+#treemap-container svg {
+  display: block; /* Remover espaço extra abaixo do SVG */
+}
+#dropdown-container {
+    order: 1;
+    flex: 0 0 auto;
+}
+#treemap-container svg {
+  display: block; /* Remover espaço extra abaixo do SVG */
+}
+#treemap-container {
+    order: 2;
+    flex: 1 1 auto;
+    overflow: auto;
+    
+}
   .tooltip {
     position: absolute;
     z-index: 10;

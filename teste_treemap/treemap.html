@@ -34,37 +34,50 @@
         A visualização em formato de treemap apresenta uma fascinante representação da relação entre os países e as suas expressões artísticas, 
         revelando a riqueza cultural de cada nação. Nesse contexto, é possível explorar e analisar como a identidade cultural de cada país se 
         manifesta através da arte. 
+        A visualização em formato de treemap apresenta uma fascinante representação da relação entre os países e as suas expressões artísticas, 
+        revelando a riqueza cultural de cada nação. Nesse contexto, é possível explorar e analisar como a identidade cultural de cada país se 
+        manifesta através da arte.    A visualização em formato de treemap apresenta uma fascinante representação da relação entre os países e as suas expressões artísticas, 
+        revelando a riqueza cultural de cada nação. Nesse contexto, é possível explorar e analisar como a identidade cultural de cada país se 
+        manifesta através da arte.    A visualização em formato de treemap apresenta uma fascinante representação da relação entre os países e as suas expressões artísticas, 
+        revelando a riqueza cultural de cada nação. Nesse contexto, é possível explorar e analisar como a identidade cultural de cada país se 
+        manifesta através da arte. 
     </p>
+    Scroll do mouse para zoom e espaço para voltar ao tamanho inicial, apertando espaço em qualquer parte da pagina vc vai para a viz tmb
+  
 
-<select id="filtro-nacionalidade">
-    <option value="African" selected="selected" >African</option>
-    <option value="American">American</option>
-    <option value="Australian">Australian</option>
-    <option value="Austrian">Austrian</option>
-    <option value="Belgian">Belgian</option>
-    <option value="British">British</option>
-    <option value="Chinese">Chinese</option>
-    <option value="Danish">Danish</option>
-    <option value="Dutch">Dutch</option>
-    <option value="English">English</option>
-    <option value="Flemish">Flemish</option>
-    <option value="French">French</option>
-    <option value="German">German</option>
-    <option value="Irish">Irish</option>
-    <option value="Italian">Italian</option>
-    <option value="Japanese">Japanese</option>
-    <option value="Mexican">Mexican</option>
-    <option value="Persian">Persian</option>
-    <option value="Russian">Russian</option>
-    <option value="Scottish">Scottish</option>
-    <option value="Spanish">Spanish</option>
-    <option value="Swiss">Swiss</option>
-    <option value="undetermined">undetermined</option>
-</select>
 <br>
 <br>
 
 <div id="raul">
+    <div id="dropdown-container"> 
+        Selecione a nacionalidade do artista e explore diferentes culturas:
+    <select id="filtro-nacionalidade">
+        <option value="African" selected="selected" >African</option>
+        <option value="American">American</option>
+        <option value="Australian">Australian</option>
+        <option value="Austrian">Austrian</option>
+        <option value="Belgian">Belgian</option>
+        <option value="British">British</option>
+        <option value="Chinese">Chinese</option>
+        <option value="Danish">Danish</option>
+        <option value="Dutch">Dutch</option>
+        <option value="English">English</option>
+        <option value="Flemish">Flemish</option>
+        <option value="French">French</option>
+        <option value="German">German</option>
+        <option value="Irish">Irish</option>
+        <option value="Italian">Italian</option>
+        <option value="Japanese">Japanese</option>
+        <option value="Mexican">Mexican</option>
+        <option value="Persian">Persian</option>
+        <option value="Russian">Russian</option>
+        <option value="Scottish">Scottish</option>
+        <option value="Spanish">Spanish</option>
+        <option value="Swiss">Swiss</option>
+        <option value="undetermined">undetermined</option>
+    </select>
+</div>
+    <div id="treemap-container"></div>
 </div>
 
 <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -74,10 +87,20 @@ let url = 'data.csv';
 
 // Conversor de CSV para JSON
 d3.csv(url).then(function(data) {
-    let selectedNationality = d3.select("#filtro-nacionalidade").node().value;
-    let filteredData = data.filter(d => d.nationality === selectedNationality);
+    allData = data; // Guardar todos os dados
+    redrawChart(); // Primeira renderização do gráfico
+});
 
-    let nest = d3.nest()
+window.addEventListener('resize', function() {
+    d3.select("body").select("svg").remove();
+    redrawChart(); // Redesenhe o gráfico quando a janela for redimensionada
+});
+ 
+function redrawChart() {
+    let selectedNationality = d3.select("#filtro-nacionalidade").node().value;
+    let filteredData = allData.filter(d => d.nationality === selectedNationality);
+
+    nest = d3.nest()
         .key(function(d) { return d.classification; }) // alterado para classificação
         .entries(filteredData);
     
@@ -85,21 +108,30 @@ d3.csv(url).then(function(data) {
 
     d3.select("#filtro-nacionalidade").on("change", function() {
     selectedNationality = d3.select(this).node().value;
-    filteredData = data.filter(d => d.nationality === selectedNationality);
+    filteredData = allData.filter(d => d.nationality === selectedNationality);
     nest = d3.nest()
         .key(function(d) { return d.classification; }) // mantenha a chave original
         .entries(filteredData);
 
     // Aqui estamos removendo o gráfico antigo antes de desenhar o novo.
-    d3.select("body").select("svg").remove();
+    d3.select("body").select("svg").remove(); 
     drawTreemap(nest);
     });
+}
+
+window.addEventListener('resize', function() {
+    d3.select("body").select("svg").remove();
+    redrawChart(); // Redesenhe o gráfico quando a janela for redimensionada
 });
 
 function drawTreemap(data) {
-    const margin = {top: 40, right: 35, bottom: 40, left: 35};
+    const margin = {top: 20, right: 35, bottom: 20 , left: 35};
+    const dropdownContainerHeight = document.getElementById('dropdown-container').offsetHeight;
+    
+    // Aqui estamos pegando a altura da janela e subtraindo a altura do dropdown e da margem
+    const height = window.innerHeight - dropdownContainerHeight - margin.top - margin.bottom;
     const width = window.innerWidth - margin.left - margin.right;
-    const height = window.innerHeight - margin.top - margin.bottom;
+    
 
     // create a tooltip
     var tooltip = d3.select("body")
@@ -117,6 +149,7 @@ function drawTreemap(data) {
       d3.select(this)
           .style("opacity", .5)
     };
+
 
     let mousemove = function(d) {
     // Se o tooltip estiver muito à direita, mostre à esquerda do cursor
@@ -150,10 +183,64 @@ function drawTreemap(data) {
         .style("opacity", 1)
     };
 
-    let svg = d3.select("#raul").append("svg")
+    let svg = d3.select("#treemap-container").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
-    
+
+
+    let g = svg.append("g")
+        .call(d3.zoom().on("zoom", function () {
+            g.attr("transform", d3.event.transform);
+        }));
+
+    let zoom = d3.zoom()
+    .scaleExtent([1, 10])
+    .on("zoom", function() {
+            g.attr("transform", d3.event.transform);
+        });
+
+    let zoomEnabled = false;  
+
+    d3.select("body")
+    .on("keydown", function() {
+        if(d3.event.key === " ") {
+            // Se o zoom estiver ativado, desabilite
+            if(zoomEnabled) {
+                zoomEnabled = false;
+                svg.on(".zoom", null);
+                g.transition()
+                .duration(750)
+                .call(zoom.transform, d3.zoomIdentity);
+            }
+
+            // Rola a página para o dropdown
+            document.getElementById("dropdown-container").scrollIntoView({behavior: "smooth"});
+        }
+    })
+        .on("keyup", function() {
+            if(d3.event.key === " ") {
+                zoomEnabled = false;
+                svg.on(".zoom", null);
+                g.transition()
+                .duration(750)
+                .call(zoom.transform, d3.zoomIdentity);
+            }
+        });
+
+    function zoomed() {
+        // Se a tecla Ctrl não estiver pressionada, retorna
+        if (!d3.event.sourceEvent.ctrlKey) return;
+        // Senão, aplica a transformação
+        zoomLayer.attr("transform", d3.event.transform);
+
+        g.call(zoom);
+
+        g.on("wheel.zoom", function() {
+            if (d3.event.ctrlKey) d3.event.preventDefault();
+        });
+        }    
+ 
+
     let treemap = d3.treemap()
     .size([width, height])
     .paddingTop(28) // alterado para o mesmo valor que o exemplo
@@ -168,14 +255,12 @@ function drawTreemap(data) {
   
     treemap(root);
 
-
-    let parents = svg.selectAll(".parent")
+    let parents = g.selectAll(".parent")
     .data(root.descendants())
     .enter().append("g")
     .filter(function (d) {
         return d.depth === 2; // Filtra os nós que são pais (neste caso, supomos que os pais estão na profundidade 1)
     });
-
 
 
     parents.append("rect")
@@ -195,7 +280,7 @@ function drawTreemap(data) {
     .style("stroke", 'black') // Cor da borda
     .style("stroke-width", "6"); // Largura da borda
 
-    let node = svg.selectAll(".node")
+    let node = g.selectAll(".node")
         .data(root.leaves())
         .enter()
         .append("g")
@@ -211,8 +296,7 @@ function drawTreemap(data) {
         .attr("height", function(d) { return d.y1- d.y0; })
         .style("fill", '#FDF5E6' )
         .style("stroke",'#FDF5E6')
-        // .style("fill", function(d){ return colors(d.data.classification)} )
-        // .style("stroke", function(d){ return colors(d.data.classification)} )
+
         .style("stroke-width", "2");
     
 
@@ -223,16 +307,9 @@ function drawTreemap(data) {
     .attr("width", function(d) { return d.x1 - d.x0; }) 
     .attr("height", function(d) { return d.y1 - d.y0; });
 
-    // svg.selectAll("titles")
-    //     .data(root.descendants().filter(function(d){return d.depth==1}))
-    //     .enter()
-    //     .append("text")
-    //         .attr("x", function(d){ return d.x0+10})
-    //         .attr("y", function(d){ return d.y0})
-    //         .text(function(d){ return d.data.key })
-    //         .attr("font-size", function(d){ return (d.x1 - d.x0)/20}) // or any other calculation based on the size of the square
-    //         .attr("fill",  function(d){ return colors(d.data.key)} )
+
 
 }
+
 </script>
 </body>
