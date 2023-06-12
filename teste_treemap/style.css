@@ -30,7 +30,7 @@
     background-color: #f9f9f9; /* Um cinza claro */
     border: 1px solid #ccc; /* Uma borda cinza */
     border-radius: 5px;
-    max-width: 350px; /* Aumentei um pouco a largura máxima para acomodar melhor o conteúdo */
+    max-width: 250px; /* Aumentei um pouco a largura máxima para acomodar melhor o conteúdo */
     font-family: 'Arial', sans-serif; /* Uma fonte mais moderna */
     font-size: 0.9em; /* Tamanho de fonte um pouco menor para que mais texto caiba */
     line-height: 1.4; /* Espaçamento de linha para melhor legibilidade */

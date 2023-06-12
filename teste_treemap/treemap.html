@@ -42,8 +42,8 @@
         revelando a riqueza cultural de cada nação. Nesse contexto, é possível explorar e analisar como a identidade cultural de cada país se 
         manifesta através da arte. 
     </p>
-    Scroll do mouse para zoom e espaço para voltar ao tamanho inicial, apertando espaço em qualquer parte da pagina vc vai para a viz tmb
-  
+    Scroll do mouse para zoom e pressione "q" para voltar ao tamanho inicial, apertando "q" em qualquer parte da pagina vc vai para a viz tmb
+    O zoom funciona apenas na area desenhada do treemap, bordas e fora não.
 
 <br>
 <br>
@@ -125,7 +125,7 @@ window.addEventListener('resize', function() {
 });
 
 function drawTreemap(data) {
-    const margin = {top: 20, right: 35, bottom: 20 , left: 35};
+    const margin = {top: 10, right: 15, bottom: 20 , left: 15};
     const dropdownContainerHeight = document.getElementById('dropdown-container').offsetHeight;
     
     // Aqui estamos pegando a altura da janela e subtraindo a altura do dropdown e da margem
@@ -203,7 +203,7 @@ function drawTreemap(data) {
 
     d3.select("body")
     .on("keydown", function() {
-        if(d3.event.key === " ") {
+        if(d3.event.key === "q") {
             // Se o zoom estiver ativado, desabilite
             if(zoomEnabled) {
                 zoomEnabled = false;
@@ -218,7 +218,7 @@ function drawTreemap(data) {
         }
     })
         .on("keyup", function() {
-            if(d3.event.key === " ") {
+            if(d3.event.key === "q") {
                 zoomEnabled = false;
                 svg.on(".zoom", null);
                 g.transition()
@@ -244,9 +244,9 @@ function drawTreemap(data) {
     let treemap = d3.treemap()
     .size([width, height])
     .paddingTop(28) // alterado para o mesmo valor que o exemplo
-    .paddingRight(7) // alterado para o mesmo valor que o exemplo
+    .paddingRight(1) // alterado para o mesmo valor que o exemplo
     .paddingInner(0) // alterado para o mesmo valor que o exemplo
-    .paddingOuter(6) // adicionado como no exemplo
+    .paddingOuter(4) // adicionado como no exemplo
     .round(true);
 
     let root = d3.hierarchy({values: data}, function(d) { return d.values; })
