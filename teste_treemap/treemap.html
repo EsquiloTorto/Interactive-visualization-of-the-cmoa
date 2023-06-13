@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap">
+    <meta charset="UTF-8">
+    <title>Museu e Arte</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -29,16 +34,17 @@
             </div>
         </div>
     </nav>
+    <h1> CMOA Surface </h1>
+    <h2> Titulos do contudo </h2>
+    <h3> subtitulos do conteudo </h3>
+    <p> Conteudo : 
+    
+    </p> CONTEUDO DO SITE
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis congue urna. Duis consectetur felis at est aliquam scelerisque. Duis fermentum felis mauris, dapibus commodo erat tincidunt quis. Curabitur id suscipit ligula. Aenean volutpat erat non sagittis iaculis. Ut quis neque faucibus, ullamcorper ex et, commodo mi. Aenean aliquam consequat nisl, non malesuada purus tempor ac
+    <br>
 
     <p>
         A visualização em formato de treemap apresenta uma fascinante representação da relação entre os países e as suas expressões artísticas, 
-        revelando a riqueza cultural de cada nação. Nesse contexto, é possível explorar e analisar como a identidade cultural de cada país se 
-        manifesta através da arte. 
-        A visualização em formato de treemap apresenta uma fascinante representação da relação entre os países e as suas expressões artísticas, 
-        revelando a riqueza cultural de cada nação. Nesse contexto, é possível explorar e analisar como a identidade cultural de cada país se 
-        manifesta através da arte.    A visualização em formato de treemap apresenta uma fascinante representação da relação entre os países e as suas expressões artísticas, 
-        revelando a riqueza cultural de cada nação. Nesse contexto, é possível explorar e analisar como a identidade cultural de cada país se 
-        manifesta através da arte.    A visualização em formato de treemap apresenta uma fascinante representação da relação entre os países e as suas expressões artísticas, 
         revelando a riqueza cultural de cada nação. Nesse contexto, é possível explorar e analisar como a identidade cultural de cada país se 
         manifesta através da arte. 
     </p>
@@ -153,11 +159,11 @@ function drawTreemap(data) {
 
     let mousemove = function(d) {
     // Se o tooltip estiver muito à direita, mostre à esquerda do cursor
-    const tooltipLeft = d3.event.pageX + tooltip.node().offsetWidth + 80 > window.innerWidth
+    const tooltipLeft = d3.event.pageX + tooltip.node().offsetWidth + 10 > window.innerWidth
         ? d3.event.pageX - tooltip.node().offsetWidth - 10
         : d3.event.pageX + 10;
     // Se o tooltip estiver muito embaixo, mostre acima do cursor
-    const tooltipTop = d3.event.pageY + tooltip.node().offsetHeight + 80 > window.innerHeight
+    const tooltipTop = d3.event.pageY + tooltip.node().offsetHeight + 10 > window.innerHeight
         ? d3.event.pageY - tooltip.node().offsetHeight - 10
         : d3.event.pageY + 10;
 
@@ -168,6 +174,7 @@ function drawTreemap(data) {
         "<div class='info'><strong>Creation date:</strong> " + d.data.creation_date + "</div>" +
         "<div class='info'><strong>Medium:</strong> " + d.data.medium + "</div>" +
         "<br><img class='image' src='" + d.data.small_img_url + "' style='max-width:200px; max-height:200px;' />")
+        .style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
         .style("left", tooltipLeft + "px")
         .style("top", tooltipTop + "px");
 };
@@ -219,7 +226,7 @@ function drawTreemap(data) {
 
             // Reinicia a transformação do zoom
             g.transition()
-            .duration(750)
+            .duration(100)
             .call(zoom.transform, d3.zoomIdentity);
 
             // Reinicia o zoom na próxima vez que ele for habilitado
