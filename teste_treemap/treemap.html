@@ -168,7 +168,7 @@ function drawTreemap(data) {
         "<div class='info'><strong>Creation date:</strong> " + d.data.creation_date + "</div>" +
         "<div class='info'><strong>Medium:</strong> " + d.data.medium + "</div>" +
         "<br><img class='image' src='" + d.data.small_img_url + "' style='max-width:200px; max-height:200px;' />")
-        .style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px")
+        .style("top", (event.pageY-100)+"px").style("left",(event.pageX+100)+"px")
         .style("left", tooltipLeft + "px")
         .style("top", tooltipTop + "px");
 };
