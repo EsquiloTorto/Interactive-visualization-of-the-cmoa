@@ -2,6 +2,7 @@
 
 body {
   font-family: sans-serif;
+  overflow-x: hidden;
 }
 
 /* ---- grid ---- */
@@ -118,7 +119,8 @@ img {
   /* Classification Dropdown */
 
   #classificationDropdown {
-    
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    height: 45px;
     margin-top: 20px;
     margin-bottom: 20px;
   }
@@ -169,26 +171,12 @@ img {
     height: 100%;
   }
 
-  /* Search box */
-
-  .search-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: .25rem;
-    max-width: 300px;
-  }
-
-  input {
-    font-size: 1rem;
-  }
-
 /* Random button */
 .bn54 {
     position: relative;
     outline: none;
     text-decoration: none;
     border-radius: 50px;
-    display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
@@ -197,7 +185,9 @@ img {
     width: 130px;
     opacity: 1;
     background-color: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.6);    
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
   
   .bn54 .bn54span {
@@ -255,12 +245,12 @@ img {
 
   /* Listing */
   .listing {
-    overflow: scroll;
+    padding: 1rem;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     gap: 1rem;
     background: rgb(100, 100, 100);
-    max-height: 800px;
   }
 
   .listing li {

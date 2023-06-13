@@ -182,21 +182,22 @@ function drawTreemap(data) {
         .style("stroke", "none")
         .style("opacity", 1)
     };
-    
-
-    let zoom = d3.zoom()
-        .scaleExtent([1, 100000])
-        .on("zoom", function() {
-            g.attr("transform", d3.event.transform);
-        });
 
     let svg = d3.select("#treemap-container").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
-        .call(zoom)
-        .append("g");
 
-    let g = svg.append("g");
+
+    let g = svg.append("g")
+        .call(d3.zoom().on("zoom", function () {
+            g.attr("transform", d3.event.transform);
+        }));
+
+    let zoom = d3.zoom()
+    .scaleExtent([1, 10])
+    .on("zoom", function() {
+            g.attr("transform", d3.event.transform);
+        });
 
     let zoomEnabled = false;  
 
@@ -207,28 +208,38 @@ function drawTreemap(data) {
             if(zoomEnabled) {
                 zoomEnabled = false;
                 svg.on(".zoom", null);
+                g.transition()
+                .duration(750)
+                .call(zoom.transform, d3.zoomIdentity);
             }
 
             // Rola a página para o dropdown
             document.getElementById("dropdown-container").scrollIntoView({behavior: "smooth"});
         }
     })
-    .on("keyup", function() {
-        if(d3.event.key === "q") {
-            zoomEnabled = false;
-            svg.on(".zoom", null);
+        .on("keyup", function() {
+            if(d3.event.key === "q") {
+                zoomEnabled = false;
+                svg.on(".zoom", null);
+                g.transition()
+                .duration(750)
+                .call(zoom.transform, d3.zoomIdentity);
+            }
+        });
 
-            // Reinicia a transformação do zoom
-            g.transition()
-            .duration(750)
-            .call(zoom.transform, d3.zoomIdentity);
+    function zoomed() {
+        // Se a tecla Ctrl não estiver pressionada, retorna
+        if (!d3.event.sourceEvent.ctrlKey) return;
+        // Senão, aplica a transformação
+        zoomLayer.attr("transform", d3.event.transform);
 
-            // Reinicia o zoom na próxima vez que ele for habilitado
-            zoom.transform(d3.select(svg.node().parentNode), d3.zoomIdentity);
-        }
-    });
+        g.call(zoom);
 
-
+        g.on("wheel.zoom", function() {
+            if (d3.event.ctrlKey) d3.event.preventDefault();
+        });
+        }    
+ 
 
     let treemap = d3.treemap()
     .size([width, height])
