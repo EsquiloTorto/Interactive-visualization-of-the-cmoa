@@ -67,6 +67,7 @@ class Functionalities {
 class Grid {
     constructor(gallery) {
       this.grid = document.querySelector('.grid');
+      this.listing_div = document.querySelector('.listing_div');
       this.gallery = gallery;
       this.iso = new Isotope(this.grid, {
         layoutMode: 'cellsByRow',
@@ -82,7 +83,7 @@ class Grid {
   
       // Attach click event listener to grid items
       this.grid.addEventListener('click', this.handleItemClick.bind(this));
-      this.grid.addEventListener('click', this.handleListClick.bind(this));
+      this.listing_div.addEventListener('click', this.handleListClick.bind(this));
       this.grid.addEventListener('mouseover', this.handleItemHover.bind(this));
       this.grid.addEventListener('mouseout', this.handleItemHover.bind(this));
     }
@@ -123,18 +124,24 @@ class Grid {
           const itemId = anchorHref.slice(1); // Remove the '#' from the href value to get the grid-item ID
     
           const clickedGridItem = document.getElementById(itemId); // Find the corresponding grid-item
+          const itemInfo = clickedGridItem.querySelector('.item-info');
           if (clickedGridItem) {
             if (this.zoomedItem === clickedGridItem) {
               // If the clicked item is already zoomed, remove the zoomed class
               clickedGridItem.classList.remove('zoomed');
+              itemInfo.style.display = 'none';
               this.zoomedItem = null;
             } else {
               // Remove zoomed class from the previously zoomed item
               if (this.zoomedItem) {
+                
+                // Hide the item info of the previously zoomed item
+                this.zoomedItem.querySelector('.item-info').style.display = 'none';
                 this.zoomedItem.classList.remove('zoomed');
               }
               // Add zoomed class to the clicked item
               clickedGridItem.classList.add('zoomed');
+              itemInfo.style.display = 'block';
               this.zoomedItem = clickedGridItem;
             }
             this.iso.layout();
@@ -295,8 +302,8 @@ loadCSV(GALLERY_CSV)
 
     // Add a scroll event listener to the window to work with the filter dropdown
     window.addEventListener('scroll', () => {
-        // If the user has scrolled to the bottom of the page
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      // If the user has scrolled to the bottom of the page
+      if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
         // Get the selected classification from the dropdown
         const selectedClassification = dropdown.value;
 
@@ -317,7 +324,7 @@ loadCSV(GALLERY_CSV)
             grid.addGridItem(item);
             });
         }
-        }
+      }
     });
 })
 .catch((error) => {
