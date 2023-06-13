@@ -153,13 +153,13 @@ function drawTreemap(data) {
 
     let mousemove = function(d) {
     // Se o tooltip estiver muito à direita, mostre à esquerda do cursor
-    const tooltipLeft = d3.event.pageX + tooltip.node().offsetWidth + 10 > window.innerWidth
-        ? d3.event.pageX - tooltip.node().offsetWidth - 10
-        : d3.event.pageX + 10;
+    const tooltipLeft = d3.event.pageX + tooltip.node().offsetWidth + 70 > window.innerWidth
+        ? d3.event.pageX - tooltip.node().offsetWidth - 70
+        : d3.event.pageX + 70;
     // Se o tooltip estiver muito embaixo, mostre acima do cursor
-    const tooltipTop = d3.event.pageY + tooltip.node().offsetHeight + 10 > window.innerHeight
-        ? d3.event.pageY - tooltip.node().offsetHeight - 10
-        : d3.event.pageY + 10;
+    const tooltipTop = d3.event.pageY + tooltip.node().offsetHeight + 70 > window.innerHeight
+        ? d3.event.pageY - tooltip.node().offsetHeight - 70
+        : d3.event.pageY + 70;
 
     tooltip
     .html("<div class='classification'>" + d.data.classification + " - " + Math.floor(d.data.total) + " Arts</div>" +
@@ -168,7 +168,6 @@ function drawTreemap(data) {
         "<div class='info'><strong>Creation date:</strong> " + d.data.creation_date + "</div>" +
         "<div class='info'><strong>Medium:</strong> " + d.data.medium + "</div>" +
         "<br><img class='image' src='" + d.data.small_img_url + "' style='max-width:200px; max-height:200px;' />")
-        .style("top", (event.pageY-100)+"px").style("left",(event.pageX+100)+"px")
         .style("left", tooltipLeft + "px")
         .style("top", tooltipTop + "px");
 };
