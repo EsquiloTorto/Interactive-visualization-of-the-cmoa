@@ -50,6 +50,7 @@ h4, h5 {
 .grid-item { 
     transition: 0.5s;
     border: 2px solid black;
+    cursor: pointer;
 }
 
   
