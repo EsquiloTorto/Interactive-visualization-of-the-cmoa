@@ -28,7 +28,6 @@ body {
 .artist-text {
   text-align: center;
   margin-bottom: 20px;
-  font-weight: bold;
 }
 
 .timeline {
@@ -78,7 +77,7 @@ body {
 }
 
 .sticky-30 {
-  position: sticky;
+  position: fixed;
   top: 10%;
 }
 
