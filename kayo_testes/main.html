@@ -33,12 +33,21 @@
             </div>
         </div>
     </nav>
+
+    <div class="row">
+        <div class="col">
+            <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt viverra mauris, nec dignissim justo fermentum quis. Nam justo purus, laoreet nec tincidunt et, luctus eu tellus. Cras sit amet nisl luctus, sodales lectus ac, dictum ligula. Duis sed facilisis justo. Phasellus eleifend interdum magna, nec vulputate tortor facilisis at. Sed non ligula vel magna hendrerit semper. Maecenas venenatis mattis felis, sed mattis tortor tempus nec. Fusce et nunc ut elit hendrerit vulputate. Aenean nec mi augue. Suspendisse id metus et erat scelerisque malesuada. Maecenas vel facilisis augue, eget egestas arcu. Quisque facilisis est ac tincidunt ullamcorper. Sed aliquam placerat mi, ut auctor orci aliquet non. Quisque condimentum quis leo in luctus. Nulla ultricies bibendum sapien, et tincidunt neque porttitor at.</h3>
+        </div>
+        <div class="col">
+            <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum</h3>
+        </div>
+    </div>
     
     <!-- center the <h1>CMOA Fragments</h1> element on screen -->
     <h1 style="text-align: center;">CMOA Fragments</h1>
     <div class="row">
         <div class="col-1"></div>
-        <div class="classification col-4">
+        <div class="classification col-3">
             <label for="classificationDropdown">Classification:</label>
             <select id="classificationDropdown">
                 <option value="all">All</option>
@@ -82,17 +91,27 @@
             </select>
         </div>  
         
-        <div class="randomBtn col-4"> 
+        <div class="randomBtn col-2"> 
             <label for="randomButton">Be Surprised:</label>
             <button class="bn54" id="randomButton">
                 <span class="bn54span">Randomize</span>
             </button>
         </div>
+        <div class="layoutButtons col-3">
+            <label>Change layout:</label>
+            <button class="bn54 cellsByRowbutton">
+                <span class="bn54span">Spaced</span>
+            </button>
+            <button class="bn54 masonrybutton">
+                <span class="bn54span">Glued</span>
+            </button>
+        </div>
     </div>
     <div class="container">
         <div class="row">
-            <div class="grid col"></div>
+            <div class="grid col-10"></div>
             <div class="listing_div col-2">
+                <label for="listing">Titles:</label>
                 <ul class="listing">
 
                 </ul>
@@ -106,6 +125,9 @@
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <script src="node_modules/isotope-cells-by-row/cells-by-row.js"></script>
+    <script src="node_modules/isotope-masonry-horizontal/masonry-horizontal.js"></script>
+    <script src="node_modules/isotope-fit-columns/fit-columns.js"></script>
+    <script src="node_modules/isotope-packery/packery-mode.js"></script>
     <script src="js/gridlayout.js" type="module"></script>
 </body>
 </html>
