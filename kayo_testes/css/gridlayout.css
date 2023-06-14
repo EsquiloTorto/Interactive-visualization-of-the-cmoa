@@ -3,26 +3,32 @@
 body {
     font-family: sans-serif;
     overflow-x: hidden;
-    background-color: #E0C9A6;
+    background-color: #ead5b5 !important;
 }
 
 /* Title css */
 
 h1 {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 30px;
-    font-weight: 500;
-    letter-spacing: 0.7px;
-    color: #666;
-    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+    font-size: 50px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.7px !important;
+    color: #2C4E76 !important;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-h3 {
+h4, h5 {
     font-family: 'Times New Roman', Times, serif;
     letter-spacing: 0.7px;
 }
+
+#conteudo {
+    padding: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
 
 /* ---- grid ---- */
 
@@ -41,8 +47,9 @@ h3 {
 
 /* ---- img ---- */
 
-.grid-item {
+.grid-item { 
     transition: 0.5s;
+    border: 2px solid black;
 }
 
   
@@ -123,6 +130,8 @@ h3 {
     margin-top: 20px;
     margin-bottom: 20px;
     border-radius: 5px;
+    background-color: rgb(48,48,48);
+    color: white;
   }
 
 
@@ -186,7 +195,7 @@ h3 {
     height: 45px;
     width: 130px;
     opacity: 1;
-    background-color: #ffffff;
+    background-color: rgb(48,48,48);
     border: 1px solid rgba(0, 0, 0, 0.6);    
     margin-top: 20px;
     margin-bottom: 20px;
@@ -194,7 +203,7 @@ h3 {
   
   .bn54 .bn54span {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: #000000;
+    color: white;
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.7px;
@@ -244,6 +253,8 @@ h3 {
     gap: 1rem;
     background: rgb(48,48,48);
     max-height: 800px;
+    /* hide the bullets */
+    list-style: none;
   }
 
 

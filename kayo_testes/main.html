@@ -35,76 +35,98 @@
     </nav>
 
     <div class="row">
-        <div class="col">
-            <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt viverra mauris, nec dignissim justo fermentum quis. Nam justo purus, laoreet nec tincidunt et, luctus eu tellus. Cras sit amet nisl luctus, sodales lectus ac, dictum ligula. Duis sed facilisis justo. Phasellus eleifend interdum magna, nec vulputate tortor facilisis at. Sed non ligula vel magna hendrerit semper. Maecenas venenatis mattis felis, sed mattis tortor tempus nec. Fusce et nunc ut elit hendrerit vulputate. Aenean nec mi augue. Suspendisse id metus et erat scelerisque malesuada. Maecenas vel facilisis augue, eget egestas arcu. Quisque facilisis est ac tincidunt ullamcorper. Sed aliquam placerat mi, ut auctor orci aliquet non. Quisque condimentum quis leo in luctus. Nulla ultricies bibendum sapien, et tincidunt neque porttitor at.</h3>
+        <div class="col" id="conteudo">
+            <h1 style="float: left; padding: 15px;"> CMOA Fragments </h1>
+            <h4>Seja bem-vindo a exposição interativa CMOA fragments que lhe permetirá explorar de forma 
+                imersiva a coleção do Carnegie Museum of Art, independentemente de sua localização geográfica.
+                Nela, você poderá ver uma amostra de obras de arte de diferentes épocas e culturas e também poderá
+                iteragir com a exposição, podendo escolher sua classificação de interesse,
+                a disposição de preferência e se surpreender com obras dispostas aleatoriamente.
+                Neste projeto, esperamos melhorar a democratização, divulgação e promoção do acesso
+                à arte.
+
+            </h4>
         </div>
-        <div class="col">
-            <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum</h3>
+        <div class="col" id="conteudo">
+            <h4>Como funciona?
+                <br>
+                Escolha na barra de escolhas "Classification" entre uma das mais de 40 classificações
+                para explorar a diversidade.
+                <br>
+                A princípio as obras tem uma ordem de disposição predefinida
+                , porém com o botão "Randomize" é possível ver obras dispostas aleatoriamente.
+                <br>
+                Por fim, é possível escolher entre duas disposições, sendo elas "Spaced" e "Glued",
+                onde a primeira exibirá as artes mais espaçadas e a outra de uma forma mais unida.
+            </h4>
         </div>
+        <h5 style="text-align: center;">Aproveite a visualização CMOA Fragments
+            e descubra a riqueza da cultura em todo o mundo.
+        </h5>
     </div>
     
-    <!-- center the <h1>CMOA Fragments</h1> element on screen -->
-    <h1 style="text-align: center;">CMOA Fragments</h1>
-    <div class="row">
-        <div class="col-1"></div>
-        <div class="classification col-3">
-            <label for="classificationDropdown">Classification:</label>
-            <select id="classificationDropdown">
-                <option value="all">All</option>
-                <option value="architectural drawings">Architectural Drawings</option>
-                <option value="architectural elements">Architectural Elements</option>
-                <option value="architectural models">Architectural Models</option>
-                <option value="biological components">Biological Components</option>
-                <option value="books">Books</option>
-                <option value="casts">Casts</option>
-                <option value="ceramics">Ceramics</option>
-                <option value="collages">Collages</option>
-                <option value="computer art">Computer Art</option>
-                <option value="containers">Containers</option>
-                <option value="costume">Costume</option>
-                <option value="crèches">Crèches</option>
-                <option value="documents and information artifacts">Documents and Information Artifacts</option>
-                <option value="drawings and watercolors">Drawings and Watercolors</option>
-                <option value="films">Films</option>
-                <option value="furniture">Furniture</option>
-                <option value="glass">Glass</option>
-                <option value="lighting devices">Lighting Devices</option>
-                <option value="measuring devices">Measuring Devices</option>
-                <option value="metals">Metals</option>
-                <option value="mirrors">Mirrors</option>
-                <option value="mixed media">Mixed Media</option>
-                <option value="paintings">Paintings</option>
-                <option value="photographs">Photographs</option>
-                <option value="printing blocks">Printing Blocks</option>
-                <option value="printing plates">Printing Plates</option>
-                <option value="prints">Prints</option>
-                <option value="recreational artifacts">Recreational Artifacts</option>
-                <option value="religious visual works">Religious Visual Works</option>
-                <option value="sculpture">Sculpture</option>
-                <option value="sound devices">Sound Devices</option>
-                <option value="textile art">Textile Art</option>
-                <option value="textiles">Textiles</option>
-                <option value="tools and equipment">Tools and Equipment</option>
-                <option value="video art">Video Art</option>
-                <option value="weapons and ammunition">Weapons and Ammunition</option>
-                <option value="wood">Wood</option>
-            </select>
-        </div>  
-        
-        <div class="randomBtn col-2"> 
-            <label for="randomButton">Be Surprised:</label>
-            <button class="bn54" id="randomButton">
-                <span class="bn54span">Randomize</span>
-            </button>
-        </div>
-        <div class="layoutButtons col-3">
-            <label>Change layout:</label>
-            <button class="bn54 cellsByRowbutton">
-                <span class="bn54span">Spaced</span>
-            </button>
-            <button class="bn54 masonrybutton">
-                <span class="bn54span">Glued</span>
-            </button>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="classification col-3">
+                <label for="classificationDropdown">Classification:</label>
+                <select id="classificationDropdown">
+                    <option value="all">All</option>
+                    <option value="architectural drawings">Architectural Drawings</option>
+                    <option value="architectural elements">Architectural Elements</option>
+                    <option value="architectural models">Architectural Models</option>
+                    <option value="biological components">Biological Components</option>
+                    <option value="books">Books</option>
+                    <option value="casts">Casts</option>
+                    <option value="ceramics">Ceramics</option>
+                    <option value="collages">Collages</option>
+                    <option value="computer art">Computer Art</option>
+                    <option value="containers">Containers</option>
+                    <option value="costume">Costume</option>
+                    <option value="crèches">Crèches</option>
+                    <option value="documents and information artifacts">Documents and Information Artifacts</option>
+                    <option value="drawings and watercolors">Drawings and Watercolors</option>
+                    <option value="films">Films</option>
+                    <option value="furniture">Furniture</option>
+                    <option value="glass">Glass</option>
+                    <option value="lighting devices">Lighting Devices</option>
+                    <option value="measuring devices">Measuring Devices</option>
+                    <option value="metals">Metals</option>
+                    <option value="mirrors">Mirrors</option>
+                    <option value="mixed media">Mixed Media</option>
+                    <option value="paintings">Paintings</option>
+                    <option value="photographs">Photographs</option>
+                    <option value="printing blocks">Printing Blocks</option>
+                    <option value="printing plates">Printing Plates</option>
+                    <option value="prints">Prints</option>
+                    <option value="recreational artifacts">Recreational Artifacts</option>
+                    <option value="religious visual works">Religious Visual Works</option>
+                    <option value="sculpture">Sculpture</option>
+                    <option value="sound devices">Sound Devices</option>
+                    <option value="textile art">Textile Art</option>
+                    <option value="textiles">Textiles</option>
+                    <option value="tools and equipment">Tools and Equipment</option>
+                    <option value="video art">Video Art</option>
+                    <option value="weapons and ammunition">Weapons and Ammunition</option>
+                    <option value="wood">Wood</option>
+                </select>
+            </div>  
+            
+            <div class="randomBtn col-2"> 
+                <label for="randomButton">Be Surprised:</label>
+                <button class="bn54" id="randomButton">
+                    <span class="bn54span">Randomize</span>
+                </button>
+            </div>
+            <div class="layoutButtons col-3">
+                <label>Change layout:</label>
+                <button class="bn54 cellsByRowbutton">
+                    <span class="bn54span">Spaced</span>
+                </button>
+                <button class="bn54 masonrybutton">
+                    <span class="bn54span">Glued</span>
+                </button>
+            </div>
         </div>
     </div>
     <div class="container">
