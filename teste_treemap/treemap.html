@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap">
+    <meta charset="UTF-8">
+    <title>Museu e Arte</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="../main/index.html">Home</a>
+            <a class="navbar-brand" href="../index.html">Home</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -28,71 +34,112 @@
             </div>
         </div>
     </nav>
+    <h1> CMOA Surface </h1>
+    <h2> Titulos do contudo </h2>
+    <h3> subtitulos do conteudo </h3>
+    <p> Conteudo : 
+    
+    </p> CONTEUDO DO SITE
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis congue urna. Duis consectetur felis at est aliquam scelerisque. Duis fermentum felis mauris, dapibus commodo erat tincidunt quis. Curabitur id suscipit ligula. Aenean volutpat erat non sagittis iaculis. Ut quis neque faucibus, ullamcorper ex et, commodo mi. Aenean aliquam consequat nisl, non malesuada purus tempor ac
+    <br>
 
     <p>
         A visualização em formato de treemap apresenta uma fascinante representação da relação entre os países e as suas expressões artísticas, 
         revelando a riqueza cultural de cada nação. Nesse contexto, é possível explorar e analisar como a identidade cultural de cada país se 
-        manifesta através da arte.
+        manifesta através da arte. 
     </p>
+    Scroll do mouse para zoom e pressione "q" para voltar ao tamanho inicial, apertando "q" em qualquer parte da pagina vc vai para a viz tmb
+    O zoom funciona apenas na area desenhada do treemap, bordas e fora não.
 
-<select id="filtro-nacionalidade">
-    <option value="Dutch" selected="selected" >Dutch</option>
-    <option value="English" >English</option>
-    <option value="American" >American</option>
-    <option value="Chinese" >Chinese</option>
-    <option value="French" >French</option>
-    <option value="British" >British</option>
-    <option value="German" >German</option>
-    <option value="Italian" >Italian</option>
-    <option value="Dutch" >Dutch</option>
-    <option value="Belgian" >Belgian</option>
-    <option value="Spanish" >Spanish</option>
-    <option value="African" >African</option>
-    <option value="Swiss" >Swiss</option>
-    <option value="Austrian" >Austrian</option>
-
-</select>
 <br>
 <br>
+
+<div id="raul">
+    <div id="dropdown-container"> 
+        Selecione a nacionalidade do artista e explore diferentes culturas:
+    <select id="filtro-nacionalidade">
+        <option value="African" selected="selected" >African</option>
+        <option value="American">American</option>
+        <option value="Australian">Australian</option>
+        <option value="Austrian">Austrian</option>
+        <option value="Belgian">Belgian</option>
+        <option value="British">British</option>
+        <option value="Chinese">Chinese</option>
+        <option value="Danish">Danish</option>
+        <option value="Dutch">Dutch</option>
+        <option value="English">English</option>
+        <option value="Flemish">Flemish</option>
+        <option value="French">French</option>
+        <option value="German">German</option>
+        <option value="Irish">Irish</option>
+        <option value="Italian">Italian</option>
+        <option value="Japanese">Japanese</option>
+        <option value="Mexican">Mexican</option>
+        <option value="Persian">Persian</option>
+        <option value="Russian">Russian</option>
+        <option value="Scottish">Scottish</option>
+        <option value="Spanish">Spanish</option>
+        <option value="Swiss">Swiss</option>
+        <option value="undetermined">undetermined</option>
+    </select>
+</div>
+    <div id="treemap-container"></div>
+</div>
 
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script>
 // Caminho para o arquivo CSV
-let url = 'cmoa_4_all.csv';
+let url = 'data.csv';
 
 // Conversor de CSV para JSON
-
 d3.csv(url).then(function(data) {
-    let selectedNationality = d3.select("#filtro-nacionalidade").node().value;
-    let filteredData = data.filter(d => d.nationality === selectedNationality);
+    allData = data; // Guardar todos os dados
+    redrawChart(); // Primeira renderização do gráfico
+});
 
-    let nest = d3.nest()
-        .key(function(d) { return d.nationality; })
-        .key(function(d) { return d.classification; })
+window.addEventListener('resize', function() {
+    d3.select("body").select("svg").remove();
+    redrawChart(); // Redesenhe o gráfico quando a janela for redimensionada
+});
+ 
+function redrawChart() {
+    let selectedNationality = d3.select("#filtro-nacionalidade").node().value;
+    let filteredData = allData.filter(d => d.nationality === selectedNationality);
+
+    nest = d3.nest()
+        .key(function(d) { return d.classification; }) // alterado para classificação
         .entries(filteredData);
     
     drawTreemap(nest);
 
     d3.select("#filtro-nacionalidade").on("change", function() {
-        selectedNationality = d3.select(this).node().value;
-        filteredData = data.filter(d => d.nationality === selectedNationality);
-        nest = d3.nest()
-            .key(function(d) { return d.nationality; })
-            .key(function(d) { return d.classification; })
-            .entries(filteredData);
+    selectedNationality = d3.select(this).node().value;
+    filteredData = allData.filter(d => d.nationality === selectedNationality);
+    nest = d3.nest()
+        .key(function(d) { return d.classification; }) // mantenha a chave original
+        .entries(filteredData);
 
-        // Aqui estamos removendo o gráfico antigo antes de desenhar o novo.
-        d3.select("body").select("svg").remove();
-        drawTreemap(nest);
+    // Aqui estamos removendo o gráfico antigo antes de desenhar o novo.
+    d3.select("body").select("svg").remove(); 
+    drawTreemap(nest);
     });
+}
+
+window.addEventListener('resize', function() {
+    d3.select("body").select("svg").remove();
+    redrawChart(); // Redesenhe o gráfico quando a janela for redimensionada
 });
 
 function drawTreemap(data) {
-    const margin = {top: 30, right: 20, bottom: 30, left: 20};
-    const width = 960 - margin.left - margin.right;
-    const height = 600 - margin.top - margin.bottom;
-       
-            // create a tooltip
+    const margin = {top: 10, right: 15, bottom: 20 , left: 15};
+    const dropdownContainerHeight = document.getElementById('dropdown-container').offsetHeight;
+    
+    // Aqui estamos pegando a altura da janela e subtraindo a altura do dropdown e da margem
+    const height = window.innerHeight - dropdownContainerHeight - margin.top - margin.bottom;
+    const width = window.innerWidth - margin.left - margin.right;
+    
+
+    // create a tooltip
     var tooltip = d3.select("body")
     .append("div")
         .style("position", "absolute") // adicionar posição absoluta
@@ -110,12 +157,33 @@ function drawTreemap(data) {
     };
 
     let mousemove = function(d) {
-        tooltip
-            .html("Nacionalidade: " + d.data.nationality + 
-            "<br>Classificação: " + d.data.classification + 
-            "<br><img src='" + d.data.img_url + "' />")
-            .style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");  // ajustar posição com base no mouse
-    };
+    let div = document.getElementById('treemap-container'); 
+    let divRect = div.getBoundingClientRect();
+
+    // Coordenadas do mouse relativas ao documento
+    let mouseX = d3.event.pageX;
+    let mouseY = d3.event.pageY;
+
+    // Se o tooltip estiver muito à direita, mostre à esquerda do cursor
+    const tooltipLeft = mouseX + tooltip.node().offsetWidth + 10 > divRect.right + window.scrollX
+        ? mouseX - tooltip.node().offsetWidth - 10
+        : mouseX + 10;
+    // Se o tooltip estiver muito embaixo, mostre acima do cursor
+    const tooltipTop = mouseY + tooltip.node().offsetHeight + 10 > divRect.bottom + window.scrollY
+        ? mouseY - tooltip.node().offsetHeight - 10
+        : mouseY + 10;
+
+    tooltip
+    .html("<div class='classification'>" + d.data.classification + " - " + Math.floor(d.data.total) + " Arts</div>" +
+        "<br><div class='info'><strong>Art name:</strong> " + d.data.title + "</div>" +
+        "<div class='info'><strong>Artist name:</strong> " + d.data.full_name + "</div>" +
+        "<div class='info'><strong>Creation date:</strong> " + d.data.creation_date + "</div>" +
+        "<div class='info'><strong>Medium:</strong> " + d.data.medium + "</div>" +
+        "<br><img class='image' src='" + d.data.small_img_url + "' style='max-width:200px; max-height:200px;' />")
+        .style("left", tooltipLeft + "px")
+        .style("top", tooltipTop + "px");
+};
+
 
     let mouseleave = function(d) {
         tooltip
@@ -126,46 +194,123 @@ function drawTreemap(data) {
         .style("stroke", "none")
         .style("opacity", 1)
     };
-
-    var color = d3.scaleOrdinal()
-    .range([ '#FF6347','#F08080','#EE82EE','#9932CC',"#9ACD32", "#00FF7F", "#87CEEB", "#4169E1", "#483D8B",'#696969','#E0FFFF'])
-
-    let svg = d3.select("body").append("svg")
-        .attr("width", width)
-        .attr("height", height)
     
+
+    let zoom = d3.zoom()
+        .scaleExtent([1, 100000])
+        .on("zoom", function() {
+            g.attr("transform", d3.event.transform);
+        });
+
+    let svg = d3.select("#treemap-container").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .call(zoom)
+        .append("g");
+
+    let g = svg.append("g");
+
+    let zoomEnabled = false;  
+
+    d3.select("body")
+    .on("keydown", function() {
+        if(d3.event.key === "q") {
+            // Se o zoom estiver ativado, desabilite
+            if(zoomEnabled) {
+                zoomEnabled = false;
+                svg.on(".zoom", null);
+            }
+
+            // Rola a página para o dropdown
+            document.getElementById("dropdown-container").scrollIntoView({behavior: "smooth"});
+        }
+    })
+    .on("keyup", function() {
+        if(d3.event.key === "q") {
+            zoomEnabled = false;
+            svg.on(".zoom", null);
+
+            // Reinicia a transformação do zoom
+            g.transition()
+            .duration(100)
+            .call(zoom.transform, d3.zoomIdentity);
+
+            // Reinicia o zoom na próxima vez que ele for habilitado
+            zoom.transform(d3.select(svg.node().parentNode), d3.zoomIdentity);
+        }
+    });
+
+
+
     let treemap = d3.treemap()
-        .size([width, height])
-        .padding(3)
-        .round(true);
+    .size([width, height])
+    .paddingTop(28) // alterado para o mesmo valor que o exemplo
+    .paddingRight(1) // alterado para o mesmo valor que o exemplo
+    .paddingInner(0) // alterado para o mesmo valor que o exemplo
+    .paddingOuter(4) // adicionado como no exemplo
+    .round(true);
+
     let root = d3.hierarchy({values: data}, function(d) { return d.values; })
         .sum(function(d) { return d.value; })
         .sort(function(a, b) { return b.value - a.value; });
   
     treemap(root);
 
-    let node = svg.selectAll(".node")
+    let parents = g.selectAll(".parent")
+    .data(root.descendants())
+    .enter().append("g")
+    .filter(function (d) {
+        return d.depth === 2; // Filtra os nós que são pais (neste caso, supomos que os pais estão na profundidade 1)
+    });
+
+
+    parents.append("rect")
+    .attr("x", function (d) {
+        return d.x0;
+    })
+    .attr("y", function (d) {
+        return d.y0;
+    })
+    .attr("width", function (d) {
+        return d.x1 - d.x0;
+    })
+    .attr("height", function (d) {
+        return d.y1 - d.y0;
+    })
+    .style("fill", "none") // Nenhum preenchimento
+    .style("stroke", 'black') // Cor da borda
+    .style("stroke-width", "6"); // Largura da borda
+
+    let node = g.selectAll(".node")
         .data(root.leaves())
-        .enter().append("g")
+        .enter()
+        .append("g")
             .attr("transform", function(d) { return "translate(" + d.x0 + "," + d.y0 + ")"; })
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave);
 
+
     node.append("rect")
         .attr("id", function(d) { return d.data.id; })
         .attr("width", function(d) { return d.x1 - d.x0; })
         .attr("height", function(d) { return d.y1- d.y0; })
-        .style("stroke", "black")
-        .style("fill", function(d){ return color(d.data.classification)} );
+        .style("fill", '#FDF5E6' )
+        .style("stroke",'#FDF5E6')
+
+        .style("stroke-width", "2");
+    
 
     node.append("image")
-    .attr("xlink:href", function(d) { return d.data.img_url; })
+    .attr("xlink:href", function(d) { return d.data.small_img_url; })
     .attr("x", 0)
     .attr("y", 0)
     .attr("width", function(d) { return d.x1 - d.x0; }) 
     .attr("height", function(d) { return d.y1 - d.y0; });
 
+
+
 }
+
 </script>
 </body>
