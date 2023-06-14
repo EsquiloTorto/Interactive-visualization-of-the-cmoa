@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="vis2.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-0">
         <div class="container">
             <a class="navbar-brand" href="../main/index.html">Home</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -33,87 +33,33 @@
 
     <div class="container">
         <div class="row mt-5">
-            <div class="col-12 col-lg-6 offset-lg-3">
-                <div class="selector-container">
-                    <h2 class="selector-title">Artists</h2>
-                    <select class="form-select artist-selector">
-                        <option value="artist1">Samuel Rosenberg</option>
-                        <option value="artist2">W. Eugene Smith</option>
-                        <option value="artist3">Luke Swank</option>
-                        <!-- Add more artist options here -->
-                    </select>
+            <div class="col-12 col-lg-6 left_col">
+                <div class="">
+                    <div class="selector-container">
+                        <h2 class="selector-title">Artists</h2>
+                        <select id="artist-selector" class="form-select artist-selector">
+                            <option value="Samuel Rosenberg">Samuel Rosenberg</option>
+                            <option value="W. Eugene Smith">W. Eugene Smith</option>
+                            <option value="Luke Swank">Luke Swank</option>
+                            <!-- Add more artist options here -->
+                        </select>
+                    </div>
+
+                    <div class="artist-text sticky-30   ">Text about <span id="selected-artist">[NAME OF ARTIST]</span> goes here</div>
                 </div>
-
-                <div class="artist-text">Samuel Rosenberg (1896-1972) foi um renomado artista plástico americano. Nascido na Rússia, emigrou para os Estados Unidos em 1907. Rosenberg se destacou por sua notável contribuição à arte moderna, especialmente no campo da escultura. Ele é conhecido por suas obras abstratas e esculturas de bronze expressivas, que capturam a essência da forma humana de uma maneira única. Um fato interessante sobre Rosenberg é que ele foi um dos fundadores do movimento conhecido como "Escultura Direta".</div>
             </div>
-        </div>
-
-        <div class="row mt-5">
-            <div class="col-12">
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-image">
-                            <img src="../images/image1.jpg" alt="Image 1">
-                        </div>
-                        <div class="timeline-name">Image 1</div>
-                        <div class="timeline-year">1991</div>
-                    </div>
-
-                    <!-- End of item -->
+            <div class="col-12 col-lg-1"></div>
+            <div class="col-12 col-lg-5">
+                <div id="visualization" class="timeline">
                     
-                    <div class="timeline-line"></div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-image">
-                            <img src="../images/image2.jpg" alt="Image 2">
-                        </div>
-                        <div class="timeline-name">Image 2</div>
-                        <div class="timeline-year">1992</div>
-                    </div>
-
-                    <!-- End of item -->
-                
-                    <div class="timeline-line"></div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-image">
-                            <img src="../images/image3.jpg" alt="Image 3">
-                        </div>
-                        <div class="timeline-name">Image 3</div>
-                        <div class="timeline-year">1993</div>
-                    </div>
-
-                    <!-- End of item -->
-                    
-                    <div class="timeline-line"></div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-image">
-                            <img src="../images/image4.jpg" alt="Image 4">
-                        </div>
-                        <div class="timeline-name">Image 4</div>
-                        <div class="timeline-year">1994</div>
-                    </div>
-
-                    <!-- End of item -->
-                
-                    <div class="timeline-line"></div>
-
-                    <div class="timeline-item">
-                        <div class="timeline-image">
-                            <img src="../images/image5.jpg" alt="Image 5">
-                        </div>
-                        <div class="timeline-name">Image 5</div>
-                        <div class="timeline-year">1995</div>
-                    </div>
-
-                    <!-- End of item -->
-
                 </div>
             </div>
         </div>
     </div>
-
+    
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.11/jquery.csv.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
     <script src="vis2.js"></script>
 </body>
