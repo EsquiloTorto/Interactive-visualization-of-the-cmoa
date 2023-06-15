@@ -33,14 +33,6 @@ body {
   margin: 50px auto 20px;
 }
 
-.frame {
-  text-align: center;
-  background-color: white;
-  border: 2px solid #e9e9e9; /* Border color */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
-  padding: 20px;
-}
-
 .timeline {
   display: flex;
   flex-direction: column;
@@ -121,4 +113,12 @@ p {
 
 .navbar {
   z-index: 1;
+}
+
+.frame {
+  text-align: center;
+  background-color: white;
+  border: 2px solid #e9e9e9; /* Border color */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  padding: 20px;
 }
