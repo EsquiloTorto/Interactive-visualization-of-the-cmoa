@@ -37,8 +37,7 @@
     <div class="container">
     <div class="row frame">
         <div class="col" id="conteudo">
-            <h1 style="float: left; padding: 15px;"> CMOA Fragments </h1>
-
+            <h1 style="padding: 15px;"> CMOA Fragments </h1>
             <h4>Seja bem-vindo a exposição interativa CMOA fragments que lhe permetirá explorar de forma 
                 imersiva a coleção do Carnegie Museum of Art, independentemente de sua localização geográfica.
                 Nela, você poderá ver uma amostra de obras de arte de diferentes épocas e culturas e também poderá
@@ -52,11 +51,14 @@
         <div class="col" id="conteudo">
             <h4>Como funciona?
                 <br>
+                <br>
                 Escolha na barra de escolhas "Classification" entre uma das mais de 40 classificações
                 para explorar a diversidade.
                 <br>
+                <br>
                 A princípio as obras tem uma ordem de disposição predefinida
                 , porém com o botão "Randomize" é possível ver obras dispostas aleatoriamente.
+                <br>
                 <br>
                 Por fim, é possível escolher entre duas disposições, sendo elas "Spaced" e "Glued",
                 onde a primeira exibirá as artes mais espaçadas e a outra de uma forma mais unida.
@@ -140,6 +142,8 @@
             </div>
         </div>
     </div>
+    Primeiramente, foi responsável por fazer parte do webscrapping, lapidar e repadronizar os dados para uso posterior.
+Em seguida, foi autor da primeira visualização (CMOA Fragments), ajudou com algumas funcionalidades técnincas gerais do das visualizações, responsividade e visual das páginas. Com isso, na síntese da visualização teve como a ideia inicial de fazer um grid infinito como o que se encontra aqui [Infinite Grid](https://codepen.io/radixzz/pen/eRJKXy), porém esta abordagem so leva em consideração tamanhos idênticos das imagens, assim logo se tornou não adequada. Então, foi feito um grid com o uso do plugin [Isotope](https://isotope.metafizzy.co) que permite o arranjo de diversas formas de elementos em uma página, além do uso de bootstrap, jquery, css, html, javascript e d3 (este foi usado apenas para melhor manipulação do csv). Assim, após o esqueleto geral do grid algumas funcionalidades foram adicionadas, como um zoom e uma descrição de cada obra, a possibilidade de filtrar por classificação, adicionar uma listagem com nomes dos títulos para servir como guia geral, botão randomizar a disposição das imagens, botões para mudar o layout do grid e um botão para voltar ao topo da página.
 
     <button class="btn-43" onclick="topFunction()" id="topBtn" title="Go to top">Top</button>
 
