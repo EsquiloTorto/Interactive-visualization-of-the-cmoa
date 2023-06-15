@@ -1,5 +1,5 @@
 function sortByDate(a, b){
-  return parseInt(a.creation_date) - parseInt(b.creation_date);
+  return parseInt(a.date_transformed) - parseInt(b.date_transformed);
 }
 
 d3.selection.prototype.last = function() {
@@ -19,8 +19,6 @@ function buildVis(data){
   filteredData = data.filter(function(d){
     if (artista != d.full_name){
       return false;
-    } else if (d.creation_date.length!=4){
-      return false;
     } else {
       return true;
     };
@@ -34,7 +32,8 @@ function buildVis(data){
     .enter()
     .append("div")
     .attr("class", "timeline-item")
-    .html(d => "<div class='timeline-image'><img src='" + d.small_img_url + "'></div><div class='timeline-name'>" + d.title + "</div><div class='timeline-year'>" + d.creation_date + "</div><div class='timeline-line'></div>");
+    .html(d => "<div class='frame'><div class='timeline-image'><img src='" + d.small_img_url + "'></div><div class='timeline-name'>" + d.title + "</div><div class='timeline-year'>" + d.creation_date + "/" + d.date_transformed + "</div></div><div class='timeline-line'></div>");
+  
 
   var lines = document.querySelectorAll(".timeline-line");
   var lastLine = lines[ lines.length-1 ];
@@ -52,8 +51,6 @@ function populateSelector(data){
   filteredData = data.filter( function(d){
     if (d.full_name.length>20) {
       return false
-    } else if (d.creation_date.length!=4){
-      return false;
     } else {
       return true
     }
@@ -75,7 +72,7 @@ $('#artist-selector').change(function(){
 })
 
 function build(){
-  d3.csv('cmoa_no_null.csv').then( d => buildVis(d));
+  d3.csv('cmoa_vis2.csv').then( d => buildVis(d));
 }
 
 // function getWikiText(artist_name){
@@ -174,4 +171,4 @@ function titlelessWikiApi(pageTitle){
     });
 }
 
-d3.csv('cmoa_no_null.csv').then( d => populateSelector(d));
+d3.csv('cmoa_vis2.csv').then( d => populateSelector(d));
