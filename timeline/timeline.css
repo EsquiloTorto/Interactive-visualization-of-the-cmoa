@@ -122,3 +122,23 @@ p {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
   padding: 20px;
 }
+
+h1 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 50px;
+  font-weight: 500;
+  letter-spacing: 0.7px;
+  color: #2C4E76;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+h4, h5 {
+  font-family: 'Times New Roman', Times, serif;
+  letter-spacing: 0.7px;
+}
+
+.main-row {
+  margin-top: 50px;
+}
