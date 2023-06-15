@@ -18,3 +18,4 @@ $(document).ready(function () {
     // Show the default active tab content on page load
     $(".tab.active").click();
 });
+

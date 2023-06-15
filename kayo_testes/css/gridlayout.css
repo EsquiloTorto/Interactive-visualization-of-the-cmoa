@@ -1,7 +1,7 @@
 * { box-sizing: border-box; }
 
 body {
-    font-family: sans-serif;
+    font-family: 'Times New Roman', Times, serif;;
     overflow-x: hidden;
     background-color: #ead5b5 !important;
 }
@@ -34,8 +34,6 @@ h4, h5 {
 
 .grid {
     background: rgb(48,48,48);
-    margin-bottom: 100px;
-    /* grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); n sei se muda algo */
 }
 
 /* clear fix */

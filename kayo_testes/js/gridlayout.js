@@ -99,7 +99,6 @@ class Grid {
             rowHeight: 300 // Set rowHeight to 'auto' for adaptive sizing
         },        
         masonry: {
-            columnWidth: 170,
             rowHeight: 300
         }
         });

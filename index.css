@@ -1,7 +1,7 @@
 :root {
     --primary-color: #1F2933;
     --secondary-color: #66C0F4;
-    --accent-color: #FFD700;
+    --accent-color: #ead5b5;
     --background-color: #161C24;
     --text-color: #FFFFFF;
 }
@@ -45,9 +45,11 @@ img {
     background-color: var(--secondary-color);
     color: var(--background-color);
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 .tab-text {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 18px; /* Bigger tab selector text */
     font-weight: bold;
     text-transform: uppercase;
@@ -56,6 +58,42 @@ img {
 .tab.active {
     background-color: var(--accent-color);
     color: var(--background-color);
+}
+
+#selector-content h2 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+@media (min-width: 400px) {
+    /* Adjust the dimensions for larger screens */
+    img {
+      width: 40%;
+      height: 'auto';
+    }
+}
+
+@media (min-width: 720px) {
+    /* Adjust the dimensions for larger screens */
+    img {
+      width: 60%;
+      height: 'auto';
+    }
+}
+
+@media (min-width: 1200px) {
+    /* Adjust the dimensions for larger screens */
+    img {
+      width: 70%;
+      height: 'auto';
+    }
+}
+
+@media (min-width: 1680px) {
+    /* Adjust the dimensions for larger screens */
+    img {
+      width: 100%;
+      height: 'auto';
+    }
 }
 
 .nav-row {
