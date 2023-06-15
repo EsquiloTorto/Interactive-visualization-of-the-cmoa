@@ -12,7 +12,6 @@ function buildVis(data){
   clearVis();
   
   let artista = d3.select("#artist-selector").node().value;
-  console.log(artista);
   
   titlelessWikiApi(artista);
   
@@ -32,7 +31,7 @@ function buildVis(data){
     .enter()
     .append("div")
     .attr("class", "timeline-item")
-    .html(d => "<div class='frame'><div class='timeline-image'><img src='" + d.small_img_url + "'></div><div class='timeline-name'>" + d.title + "</div><div class='timeline-year'>" + d.creation_date + "/" + d.date_transformed + "</div></div><div class='timeline-line'></div>");
+    .html(d => "<div class='frame'><div class='timeline-image'><img src='" + d.small_img_url + "'></div><div class='timeline-name'>" + d.title + "</div><div class='timeline-year'>" + d.creation_date + "</div></div><div class='timeline-line'></div>");
   
 
   var lines = document.querySelectorAll(".timeline-line");
@@ -75,19 +74,6 @@ function build(){
   d3.csv('cmoa_vis2.csv').then( d => buildVis(d));
 }
 
-// function getWikiText(artist_name){
-  
-//   let wikiUrl = "https://cors-anywhere.herokuapp.com/https://en.wikipedia.org/w/api.php?action=query&format=json&titles=" + artist_name.replace(" ", "_") + "&prop=extracts&exintro&explaintext&origin=*";
-
-//   var xmlHttp = new XMLHttpRequest();
-//   xmlHttp.open( "GET", wikiUrl, true ); // false for synchronous request
-//   xmlHttp.send( null );
-//   let text = xmlHttp.responseText;
-
-//   console.log(text);
-// }
-
-
 // Function to fetch data from Wikipedia
 function getWikiText(pageTitle) {
   var apiUrl = 'https://en.wikipedia.org/w/api.php';
@@ -119,7 +105,6 @@ function getWikiText(pageTitle) {
       var extract = pages[pageId].extract;
 
       var textElement = document.querySelector("#bio");
-      console.log(textElement);
       textElement.textContent = extract;
     })
     .catch(function(error) {
