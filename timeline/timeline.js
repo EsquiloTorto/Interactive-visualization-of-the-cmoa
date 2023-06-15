@@ -147,7 +147,6 @@ function getWikiText(pageTitle, originalTitle) {
 
       var wordSim = similarity(pageTitle, originalTitle);
 
-      console.log(wordSim);
 
       var textElement = document.querySelector("#bio");
       
@@ -155,7 +154,7 @@ function getWikiText(pageTitle, originalTitle) {
         textElement.textContent = extract;
       } else {
         textElement.textContent = "Não foi possível encontrar um artigo sobre este artista";
-        console.log(extract);
+
       }
 
     })
