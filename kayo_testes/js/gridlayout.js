@@ -18,6 +18,21 @@ function filterGalleryByClassification(gallery, classification) {
     return gallery.filter((item) => item.classification === classification);
 }
 
+function capitalizeInitials(str) {
+    // Divide a string em um array de palavras
+    var words = str.toLowerCase().split(' ');
+  
+    // Mapeia cada palavra e transforma a inicial em letra maiúscula
+    var capitalizedWords = words.map(function(word) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    });
+  
+    // Junta as palavras novamente em uma única string
+    var result = capitalizedWords.join(' ');
+  
+    return result;
+}
+
 // Class to handle various functionalities
 class Functionalities {
     constructor(gallery) {
@@ -84,7 +99,6 @@ class Grid {
             rowHeight: 300 // Set rowHeight to 'auto' for adaptive sizing
         },        
         masonry: {
-            columnWidth: 170,
             rowHeight: 300
         }
         });
@@ -190,9 +204,10 @@ class Grid {
       const title = galleryRow.title;
       const artist = galleryRow.cited_name;
       const date = galleryRow.creation_date;
+      const classification = galleryRow.classification;
       const web_url = galleryRow.web_url;
   
-      return { title, artist, date, web_url };
+      return { title, artist, date, classification, web_url };
     }
   
     // Add an item to the grid
@@ -208,11 +223,12 @@ class Grid {
   
       const infoElement = document.createElement('div');
       infoElement.classList.add('item-info');
-      const { title, artist, date, web_url } = this.getItemInfo(galleryRow);
+      const { title, artist, date, classification, web_url } = this.getItemInfo(galleryRow);
       infoElement.innerHTML = `
         <h3><a href="#${gridItem.id}">Title: ${title}</a></h3>
         <p>Source: ${artist}</p>
         <p>Date: ${date}</p>
+        <p>Class.: ${capitalizeInitials(classification)}</p>
         <a href="${web_url}" target="_blank">View on CMOA website</a>
       `;
   
