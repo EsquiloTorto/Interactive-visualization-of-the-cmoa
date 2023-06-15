@@ -1,3 +1,44 @@
+function editDistance(s1, s2) {
+  s1 = s1.toLowerCase();
+  s2 = s2.toLowerCase();
+
+  var costs = new Array();
+  for (var i = 0; i <= s1.length; i++) {
+    var lastValue = i;
+    for (var j = 0; j <= s2.length; j++) {
+      if (i == 0)
+        costs[j] = j;
+      else {
+        if (j > 0) {
+          var newValue = costs[j - 1];
+          if (s1.charAt(i - 1) != s2.charAt(j - 1))
+            newValue = Math.min(Math.min(newValue, lastValue),
+              costs[j]) + 1;
+          costs[j - 1] = lastValue;
+          lastValue = newValue;
+        }
+      }
+    }
+    if (i > 0)
+      costs[s2.length] = lastValue;
+  }
+  return costs[s2.length];
+}
+
+function similarity(s1, s2) {
+  var longer = s1;
+  var shorter = s2;
+  if (s1.length < s2.length) {
+    longer = s2;
+    shorter = s1;
+  }
+  var longerLength = longer.length;
+  if (longerLength == 0) {
+    return 1.0;
+  }
+  return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+}
+
 function sortByDate(a, b){
   return parseInt(a.date_transformed) - parseInt(b.date_transformed);
 }
@@ -75,7 +116,7 @@ function build(){
 }
 
 // Function to fetch data from Wikipedia
-function getWikiText(pageTitle) {
+function getWikiText(pageTitle, originalTitle) {
   var apiUrl = 'https://en.wikipedia.org/w/api.php';
   // Wikipedia API parameters
   var params = {
@@ -104,8 +145,19 @@ function getWikiText(pageTitle) {
       var pageId = Object.keys(pages)[0];
       var extract = pages[pageId].extract;
 
+      var wordSim = similarity(pageTitle, originalTitle);
+
+      console.log(wordSim);
+
       var textElement = document.querySelector("#bio");
-      textElement.textContent = extract;
+      
+      if (wordSim>0.7){
+        textElement.textContent = extract;
+      } else {
+        textElement.textContent = "Não foi possível encontrar um artigo sobre este artista";
+        console.log(extract);
+      }
+
     })
     .catch(function(error) {
       console.log('Error fetching data from Wikipedia:', error);
@@ -143,10 +195,10 @@ function titlelessWikiApi(pageTitle){
       // Check if search results are available
       if (data.query.searchinfo.totalhits > 0) {
         // Get the title of the first search result
-        var pageTitle = data.query.search[0].title;
+        var newPageTitle = data.query.search[0].title;
 
         // Fetch data for the first search result
-        getWikiText(pageTitle);
+        getWikiText(newPageTitle, pageTitle);
       } else {
         console.log('No matching Wikipedia page found.');
       }
