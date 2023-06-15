@@ -2,14 +2,14 @@ const GALLERY_CSV = "./collection-master/cmoa_no_null.csv";
 
 // Function to load CSV file
 function loadCSV(url) {
-  return new Promise((resolve, reject) => {
-    d3.csv(url, d3.autoType)
-      .then((data) => {
-        resolve(data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
+    return new Promise((resolve, reject) => {
+        d3.csv(url, d3.autoType)
+            .then((data) => {
+                resolve(data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
   });
 }
 
@@ -128,28 +128,28 @@ class Grid {
     }
   
     handleItemClick(event) {
-      const clickedItem = event.target.closest('.grid-item');
-      if (clickedItem) {
-        if (this.zoomedItem === clickedItem) {
-          // If the clicked item is already zoomed, remove the zoomed class
-          clickedItem.classList.remove('zoomed');
-          this.zoomedItem = null;
-        } else {
-          // Remove zoomed class from the previously zoomed item
-          if (this.zoomedItem) {
-            this.zoomedItem.classList.remove('zoomed');
-          }
-          // Add zoomed class to the clicked item
-          clickedItem.classList.add('zoomed');
-          this.zoomedItem = clickedItem;
+        const clickedItem = event.target.closest('.grid-item');
+        if (clickedItem) {
+            if (this.zoomedItem === clickedItem) {
+                // If the clicked item is already zoomed, remove the zoomed class
+                clickedItem.classList.remove('zoomed');
+                this.zoomedItem = null;
+            } else {
+                // Remove zoomed class from the previously zoomed item
+                if (this.zoomedItem) {
+                this.zoomedItem.classList.remove('zoomed');
+                }
+                // Add zoomed class to the clicked item
+                clickedItem.classList.add('zoomed');
+                this.zoomedItem = clickedItem;
+            }
+            } else {
+            // If the user clicked outside the grid item, zoom out if there is a zoomed item
+            if (this.zoomedItem) {
+                this.zoomedItem.classList.remove('zoomed');
+                this.zoomedItem = null;
+            }
         }
-      } else {
-        // If the user clicked outside the grid item, zoom out if there is a zoomed item
-        if (this.zoomedItem) {
-          this.zoomedItem.classList.remove('zoomed');
-          this.zoomedItem = null;
-        }
-      }
     }
 
     // Make the grid-item corresponding to the clicked list item zoomed
@@ -186,65 +186,65 @@ class Grid {
       }
   
     handleItemHover(event) {
-      const hoveredItem = event.target.closest('.grid-item');
-      const zoomedItem = this.zoomedItem;
-      
-      if (hoveredItem && (!zoomedItem || hoveredItem !== zoomedItem)) {
-        const infoElement = hoveredItem.querySelector('.item-info');
-        if (event.type === 'mouseover') {
-          infoElement.style.display = 'block';
-        } else if (event.type === 'mouseout') {
-          infoElement.style.display = 'none';
+        const hoveredItem = event.target.closest('.grid-item');
+        const zoomedItem = this.zoomedItem;
+        
+        if (hoveredItem && (!zoomedItem || hoveredItem !== zoomedItem)) {
+            const infoElement = hoveredItem.querySelector('.item-info');
+            if (event.type === 'mouseover') {
+            infoElement.style.display = 'block';
+            } else if (event.type === 'mouseout') {
+            infoElement.style.display = 'none';
+            }
         }
-      }
     }
   
     // Get item info
     getItemInfo(galleryRow) {
-      const title = galleryRow.title;
-      const artist = galleryRow.cited_name;
-      const date = galleryRow.creation_date;
-      const classification = galleryRow.classification;
-      const web_url = galleryRow.web_url;
-  
-      return { title, artist, date, classification, web_url };
+        const title = galleryRow.title;
+        const artist = galleryRow.cited_name;
+        const date = galleryRow.creation_date;
+        const classification = galleryRow.classification;
+        const web_url = galleryRow.web_url;
+    
+        return { title, artist, date, classification, web_url };
     }
   
     // Add an item to the grid
     addGridItem(galleryRow) {
-      const gridItem = document.createElement('div');
-      gridItem.classList.add('grid-item');
-      gridItem.id = galleryRow.title.replace(/\s+/g, '-').toLowerCase(); // Define o ID baseado no título
+        const gridItem = document.createElement('div');
+        gridItem.classList.add('grid-item');
+        gridItem.id = galleryRow.title.replace(/\s+/g, '-').toLowerCase(); // Define o ID baseado no título
+    
+        const imageElement = document.createElement('img');
+        imageElement.src = galleryRow.small_img_url;
+        imageElement.style.width = '140px';
+        imageElement.style.height = 'auto';
+    
+        const infoElement = document.createElement('div');
+        infoElement.classList.add('item-info');
+        const { title, artist, date, classification, web_url } = this.getItemInfo(galleryRow);
+        infoElement.innerHTML = `
+            <h3><a href="#${gridItem.id}">Title: ${title}</a></h3>
+            <p>Source: ${artist}</p>
+            <p>Date: ${date}</p>
+            <p>Class.: ${capitalizeInitials(classification)}</p>
+            <a href="${web_url}" target="_blank">View on CMOA website</a>
+        `;
   
-      const imageElement = document.createElement('img');
-      imageElement.src = galleryRow.small_img_url;
-      imageElement.style.width = '140px';
-      imageElement.style.height = 'auto';
-  
-      const infoElement = document.createElement('div');
-      infoElement.classList.add('item-info');
-      const { title, artist, date, classification, web_url } = this.getItemInfo(galleryRow);
-      infoElement.innerHTML = `
-        <h3><a href="#${gridItem.id}">Title: ${title}</a></h3>
-        <p>Source: ${artist}</p>
-        <p>Date: ${date}</p>
-        <p>Class.: ${capitalizeInitials(classification)}</p>
-        <a href="${web_url}" target="_blank">View on CMOA website</a>
-      `;
-  
-      // Select element with class="listing"
-      const listing = document.querySelector('.listing');
-      
-      // Add li to ul class="listing" element  with title
-      const li = document.createElement('li');
-      listing.appendChild(li);
-      li.innerHTML = `<a href="#${gridItem.id}">${title}</a>`; // Adiciona um link de âncora para o ID do grid-item
-  
-      gridItem.appendChild(imageElement);
-      gridItem.appendChild(infoElement);
-      this.grid.appendChild(gridItem);
-      this.iso.appended(gridItem);
-      this.iso.layout();
+        // Select element with class="listing"
+        const listing = document.querySelector('.listing');
+        
+        // Add li to ul class="listing" element  with title
+        const li = document.createElement('li');
+        listing.appendChild(li);
+        li.innerHTML = `<a href="#${gridItem.id}">${title}</a>`; // Adiciona um link de âncora para o ID do grid-item
+    
+        gridItem.appendChild(imageElement);
+        gridItem.appendChild(infoElement);
+        this.grid.appendChild(gridItem);
+        this.iso.appended(gridItem);
+        this.iso.layout();
     }
   }
 
@@ -278,18 +278,18 @@ loadCSV(GALLERY_CSV)
         listing.innerHTML = '';
 
         if (selectedClassification === 'all') {
-        // Add all images to the grid
-        gallery.slice(0, 20).forEach((item) => {
-            grid.addGridItem(item);
-        });
+            // Add all images to the grid
+            gallery.slice(0, 20).forEach((item) => {
+                grid.addGridItem(item);
+            });
         } else {
-        // Filter gallery by selected classification
-        const filteredGallery = filterGalleryByClassification(gallery, selectedClassification);
+            // Filter gallery by selected classification
+            const filteredGallery = filterGalleryByClassification(gallery, selectedClassification);
 
-        // Add the first 20 filtered images to the grid
-        filteredGallery.slice(0, 20).forEach((item) => {
-            grid.addGridItem(item);
-        });
+            // Add the first 20 filtered images to the grid
+            filteredGallery.slice(0, 20).forEach((item) => {
+                grid.addGridItem(item);
+            });
         }
     });
 
@@ -338,30 +338,30 @@ loadCSV(GALLERY_CSV)
 
     // Add a scroll event listener to the window to work with the filter dropdown
     window.addEventListener('scroll', () => {
-      // If the user has scrolled to the bottom of the page
-      if ($(window).scrollTop() + $(window).height() > $(document).height() - 500) {
-        // Get the selected classification from the dropdown
-        const selectedClassification = dropdown.value;
+        // If the user has scrolled to the bottom of the page
+        if ($(window).scrollTop() + $(window).height() > $(document).height() - 500) {
+            // Get the selected classification from the dropdown
+            const selectedClassification = dropdown.value;
 
-        // Get the number of items currently in the grid
-        const numItems = grid.iso.getItemElements().length;
+            // Get the number of items currently in the grid
+            const numItems = grid.iso.getItemElements().length;
 
-        if (selectedClassification === 'all') {
-            // Add the next 5 images from the full gallery to the grid
-            gallery.slice(numItems, numItems + 5).forEach((item) => {
-            grid.addGridItem(item);
-            });
-        } else {
-            // Filter gallery by selected classification
-            const filteredGallery = filterGalleryByClassification(gallery, selectedClassification);
+            if (selectedClassification === 'all') {
+                // Add the next 5 images from the full gallery to the grid
+                gallery.slice(numItems, numItems + 5).forEach((item) => {
+                grid.addGridItem(item);
+                });
+            } else {
+                // Filter gallery by selected classification
+                const filteredGallery = filterGalleryByClassification(gallery, selectedClassification);
 
-            // Add the next 5 filtered images to the grid
-            filteredGallery.slice(numItems, numItems + 5).forEach((item) => {
-            grid.addGridItem(item);
-            });
+                // Add the next 5 filtered images to the grid
+                filteredGallery.slice(numItems, numItems + 5).forEach((item) => {
+                grid.addGridItem(item);
+                });
+            }
+            grid.iso.layout();
         }
-        grid.iso.layout();
-      }
     });
 })
 .catch((error) => {
