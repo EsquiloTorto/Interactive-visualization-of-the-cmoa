@@ -55,8 +55,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px; /* Increased vertical spacing */
-  margin-top: 20px; /* Increased vertical spacing */
+  margin-top: 10px; /* Increased vertical spacing */
 }
 
 .timeline-image {
