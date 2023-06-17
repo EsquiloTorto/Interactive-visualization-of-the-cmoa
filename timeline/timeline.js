@@ -153,7 +153,7 @@ function getWikiText(pageTitle, originalTitle) {
       if (wordSim>0.7){
         textElement.textContent = extract;
       } else {
-        textElement.textContent = "Não foi possível encontrar um artigo sobre este artista";
+        textElement.textContent = "We couldn't find a description for the artist you're looking for :(";
 
       }
 
