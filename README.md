@@ -27,3 +27,6 @@ Ferramentas de uso:
 - [Jquery](https://jquery.com)
 - [Isotope](https://isotope.metafizzy.co)
 - Além de html, css e javascript
+
+Github pages link:
+https://fgv-vis-2023.github.io/final-project-interactive-visualization-of-the-cmoa/
